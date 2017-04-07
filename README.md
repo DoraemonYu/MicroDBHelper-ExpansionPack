@@ -13,6 +13,23 @@ However, in the another hand, some developers still hope I could provide some re
 
 
 
-Documents
+!Documents!
 ==========================================
-**The documentation will be supplemented in the near future.**  o(∩_∩)o see you.
+**The documentation will be supplemented in the near future.**  o(∩_∩)o see you. 
+
+
+
+LICENSE
+==========================================
+MIT 
+
+Although LICENSE of MicroDBHelper is LGPL, the MicroDBHelper-ExpansionPack is MIT :) 
+
+Most of the logics in these Optional Expansion Packs is generic, the core logics can be used for others projects easily with few modify and it's intention was not just for MicroDBHelper. 
+
+So you can get these source codes in your projects for personal or businesses, and join your valuable idea and modify, share them to everyone if you hope.
+
+
+
+
+
