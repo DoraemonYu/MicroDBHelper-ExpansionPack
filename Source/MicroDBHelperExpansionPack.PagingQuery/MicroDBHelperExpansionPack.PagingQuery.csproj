@@ -45,7 +45,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Dependencies\Source\MicroDBHelper\MicroDBHelper.csproj">
+    <ProjectReference Include="..\References\MicroDBHelper\Source\MicroDBHelper\MicroDBHelper.csproj">
       <Project>{38bed804-cde9-46e0-a493-9df6f4dd3f27}</Project>
       <Name>MicroDBHelper</Name>
     </ProjectReference>

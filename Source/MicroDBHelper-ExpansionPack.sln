@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0 Dependencies", "0 Depende
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 Main Contents", "1 Main Contents", "{89D5C97C-51AD-4554-94EF-AAFECD260472}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroDBHelper", "Dependencies\MicroDBHelper\Source\MicroDBHelper\MicroDBHelper.csproj", "{38BED804-CDE9-46E0-A493-9DF6F4DD3F27}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroDBHelper", "References\MicroDBHelper\Source\MicroDBHelper\MicroDBHelper.csproj", "{38BED804-CDE9-46E0-A493-9DF6F4DD3F27}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroDBHelperExpansionPack.PagingQuery", "MicroDBHelperExpansionPack.PagingQuery\MicroDBHelperExpansionPack.PagingQuery.csproj", "{3DF17B32-89DF-48BB-80D3-5CED0BE45970}"
 EndProject
