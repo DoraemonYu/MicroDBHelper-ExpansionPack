@@ -165,26 +165,31 @@ namespace MicroDBHelpers.ExpansionPack
             //init total count
             int totalCount = 0;
 
+            //pre-deal some chars which may effect the logic
+            string SELECTSQL = selectSql.Replace("\t"," ")
+                                        .Replace("\r\n", "\n")
+                                        .Replace("\n", "\n ")
+                                        .Trim();
+            
             //create total count sql expression
             string sqlCount = String.Empty;
 
-            string SELECTSQL = selectSql.Trim();
 
-            // start after select
-            int beginPos = SELECTSQL.IndexOf("select ", StringComparison.OrdinalIgnoreCase) + 7;
-            int nextFormPos = SELECTSQL.IndexOf("from ", beginPos, StringComparison.OrdinalIgnoreCase);
-            int nextSelectPos = SELECTSQL.IndexOf("select ", beginPos, StringComparison.OrdinalIgnoreCase);
+            //start after select
+            int beginPos = SELECTSQL.IndexOf("SELECT ", StringComparison.OrdinalIgnoreCase) + 7;
+            int nextFormPos = SELECTSQL.IndexOf("FROM ", beginPos, StringComparison.OrdinalIgnoreCase);
+            int nextSelectPos = SELECTSQL.IndexOf("SELECT ", beginPos, StringComparison.OrdinalIgnoreCase);
 
             while (nextSelectPos > 0 && nextFormPos > nextSelectPos)
             {
                 beginPos = nextFormPos + 4;
 
-                nextFormPos = SELECTSQL.IndexOf("from ", beginPos, StringComparison.OrdinalIgnoreCase);
-                nextSelectPos = SELECTSQL.IndexOf("select ", beginPos, StringComparison.OrdinalIgnoreCase);
+                nextFormPos = SELECTSQL.IndexOf("FROM ", beginPos, StringComparison.OrdinalIgnoreCase);
+                nextSelectPos = SELECTSQL.IndexOf("SELECT ", beginPos, StringComparison.OrdinalIgnoreCase);
             }
 
             string orderString = "";
-            int endPos = SELECTSQL.LastIndexOf("order by", StringComparison.OrdinalIgnoreCase);
+            int endPos = SELECTSQL.LastIndexOf("ORDER BY", StringComparison.OrdinalIgnoreCase);
 
             if (endPos > 0)
             {
@@ -255,12 +260,12 @@ namespace MicroDBHelpers.ExpansionPack
         {
 
             bool hasOffset      = (pageIndex != 1);
-            int startOfSelect   = sql.IndexOf("select", StringComparison.OrdinalIgnoreCase);
-            int orderByIndex    = sql.LastIndexOf("order by", StringComparison.OrdinalIgnoreCase);
+            int startOfSelect   = sql.IndexOf("SELECT", StringComparison.OrdinalIgnoreCase);
+            int orderByIndex    = sql.LastIndexOf("ORDER BY", StringComparison.OrdinalIgnoreCase);
 
             var pagingSelect    = new StringBuilder(sql.Length + 100);
 
-            pagingSelect.Append("select * from ( select ");         // nest the main query in an outer select
+            pagingSelect.Append("SELECT * FROM ( SELECT ");         // nest the main query in an outer select
             pagingSelect.Append(GetRowNumber(sql));                 // add the rownnumber bit into the outer query select list
 
             if (orderByIndex > 0)
@@ -270,7 +275,7 @@ namespace MicroDBHelpers.ExpansionPack
 
             if (hasDistinct(sql))
             {
-                pagingSelect.Append(" row_.* from ( ")              // add another (inner) nested select
+                pagingSelect.Append(" row_.* FROM ( ")              // add another (inner) nested select
                         .Append(sql.Substring(startOfSelect))       // add the main query
                         .Append(" ) as row_");                      // close off the inner nested select
             }
@@ -304,7 +309,7 @@ namespace MicroDBHelpers.ExpansionPack
 
             StringBuilder rownumber = new StringBuilder(50).Append("ROW_NUMBER() OVER(");
 
-            int orderByIndex = sql.LastIndexOf("order by", StringComparison.OrdinalIgnoreCase);
+            int orderByIndex = sql.LastIndexOf("ORDER BY", StringComparison.OrdinalIgnoreCase);
             if (orderByIndex > 0 && !hasDistinct(sql))
             {
                 rownumber.Append(sql.Substring(orderByIndex));
@@ -312,7 +317,7 @@ namespace MicroDBHelpers.ExpansionPack
             else
             {
                 string orderby      = sql;
-                rownumber.Append(string.Format(" order by {0} ", orderby.Substring(orderby.LastIndexOf("["), orderby.LastIndexOf("]") - orderby.LastIndexOf("[") + 1)));
+                rownumber.Append(string.Format(" ORDER BY {0} ", orderby.Substring(orderby.LastIndexOf("["), orderby.LastIndexOf("]") - orderby.LastIndexOf("[") + 1)));
             }
 
             rownumber.Append(") as rownumber_,");
@@ -327,7 +332,7 @@ namespace MicroDBHelpers.ExpansionPack
         private static bool hasDistinct(
             string sql)
         {
-            return sql.IndexOf("select distinct", StringComparison.OrdinalIgnoreCase) >= 0;
+            return sql.IndexOf("SELECT distinct", StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
         #endregion
