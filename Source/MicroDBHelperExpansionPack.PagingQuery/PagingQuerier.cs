@@ -173,6 +173,10 @@ namespace MicroDBHelpers.ExpansionPack
                                                                      CommandType commandType = CommandType.Text                                                   
                                                                      )
         {
+            //Check Data legitimacy firstly
+            if (String.IsNullOrWhiteSpace(selectSql))
+                throw new ArgumentException("[selectSql] cannot be empty string.", "selectSql");
+
             //init total count
             int totalCount   = 0;
 
@@ -181,10 +185,14 @@ namespace MicroDBHelpers.ExpansionPack
                                         .Replace("\r\n", "\n")
                                         .Replace("\n", "\n ")
                                         .Trim();
+
+            //Check Data legitimacy agian
+            if (selectSql.IndexOf("SELECT ",  StringComparison.OrdinalIgnoreCase) < 0)
+                throw new ArgumentException("[selectSql] must include the 'SELECT' keyword.", "selectSql");
+
             
             //create total count sql expression
             string sqlCount     = String.Empty;
-
 
             //start after select
             int beginPos        = SELECTSQL.IndexOf("SELECT ", StringComparison.OrdinalIgnoreCase) + 7;
