@@ -3,7 +3,7 @@ ExpansionPack :: EntityConversion
  
 This expansion pack is focus on convert DataTable object to target entity model.  
 
-*The root section of documents of **all optional expansion pack**, please visit [here](../).*
+*The root section of documents of **all optional expansion pack**, please visit [here](https://doraemonyu.github.io/MicroDBHelper-ExpansionPack/).*
 
 
 ## Environmental Requirement
@@ -69,4 +69,4 @@ If you needn't to got the code and bulid by yourself for the moment, I also offe
 `Install-Package MicroDBHelper-ExpansionPack-EntityConversion`  [link](https://www.nuget.org/packages/MicroDBHelper-ExpansionPack-EntityConversion/)
 
 <br><br><br>
-o(∩_∩)o *The root section of documents of **all optional expansion pack**, please visit [here](../).*
+o(∩_∩)o *The root section of documents of **all optional expansion pack**, please visit [here](https://doraemonyu.github.io/MicroDBHelper-ExpansionPack/).*
