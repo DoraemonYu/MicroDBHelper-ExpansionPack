@@ -1,4 +1,4 @@
-MicroDBHelper-ExpansionPack :: EntityConversion 
+ExpansionPack :: EntityConversion 
 ================================================ 
  
 This expansion pack is focus on convert DataTable object to target entity model. 
@@ -23,9 +23,9 @@ class Model
 
 ### Call conversion method 
 There are two alternatives: 
-* **Static method**. `EntityConvert.ConvertToList<Model>(DataTableObject);`  Pass the model's type to **Generic Type Parameter** and DataTable object to **Method Parameter**. Then it will return a collection with type of **IList<Model>**.
+* **Static method**. `EntityConvert.ConvertToList<Model>(DataTableObject);`  Pass the model's type to **Generic Type Parameter** and DataTable object to **Method Parameter**. Then it will return a collection with type of `IList<Model>`.
  
-* **Extended method**. `DataTableObject.ToList<Model>();` using the namespaces of **MicroDBHelpers.ExpansionPack**, then you can use this way.  Then it will return a collection with type of **IList<Model>**.
+* **Extended method**. `DataTableObject.ToList<Model>();` using the namespaces of **MicroDBHelpers.ExpansionPack**, then you can use this way.  Then it will return a collection with type of `IList<Model>`.
 
 
 
@@ -47,7 +47,7 @@ class Model
 #### Case sensitive control
 By default, it is **case sensitive**. If you hope the library ignore case when compare names, there are two alternatives: 
 * use the **MicroDBHelpers.ExpansionPack.ColumnAttribute** associated to each expected propertys, and set the **CaseSensitiveToMatchedName** to **false**; 
-* `MicroDBHelpers.ExpansionPack.EntityConversionDefaultSettings.CaseSensitiveToColumnName = false;` , this will effect all propertys which is not associated by ColumnAttribute; 
+* call `MicroDBHelpers.ExpansionPack.EntityConversionDefaultSettings.CaseSensitiveToColumnName = false;` , this will effect all propertys which is not associated by ColumnAttribute; 
 
 Please note again, if you set the `EntityConversionDefaultSettings.CaseSensitiveToColumnName` and use `ColumnAttribute` **both**, then the finall rule of Case sensitive to **that one property** would in `ColumnAttribute` prevail. 
 
