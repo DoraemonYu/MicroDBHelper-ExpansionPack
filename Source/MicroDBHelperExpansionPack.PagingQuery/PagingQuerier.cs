@@ -234,7 +234,7 @@ namespace MicroDBHelpers.ExpansionPack
 
             //add pading parameter
             List<SqlParameter> paras = new List<SqlParameter>();
-            if (paramValues != null)
+            if (paramValues != null && paramValues.Length > 0)
                 paras.AddRange(paramValues);
 
             if (hasOffset)
