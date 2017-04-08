@@ -66,8 +66,5 @@ If you needn't to got the code and bulid by yourself for the moment, I also offe
 
 `Install-Package MicroDBHelper-ExpansionPack-EntityConversion`  [link](https://www.nuget.org/packages/MicroDBHelper-ExpansionPack-EntityConversion/)
 
-
-&nbsp;
-&nbsp;
-#&nbsp;
+<br><br><br>
 *The root section of documents of all optional expansion pack, please visit [here](../).*
