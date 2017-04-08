@@ -35,7 +35,14 @@ namespace MicroDBHelpers.ExpansionPack
                                                      string connectionAliasName = MicroDBHelper.ALIAS_NAME_DEFAULT, CommandType commandType = CommandType.Text
                                                      )
         {
-            return PagingAsDatatableAsync(pageIndex, pageSize, fixedSql, selectSql, paramValues, connectionAliasName, commandType).Result;
+            try
+            {
+                return PagingAsDatatableAsync(pageIndex, pageSize, fixedSql, selectSql, paramValues, connectionAliasName, commandType).Result;
+            }
+            catch (Exception ex)
+            {                 
+                throw ex.GetBaseException();
+            }
         }
 
         /// <summary>
@@ -173,6 +180,10 @@ namespace MicroDBHelpers.ExpansionPack
                                                                      CommandType commandType = CommandType.Text                                                   
                                                                      )
         {
+            //Check Data legitimacy firstly
+            if (String.IsNullOrWhiteSpace(selectSql))
+                throw new ArgumentException("[selectSql] cannot be empty string.", "selectSql");
+
             //init total count
             int totalCount   = 0;
 
@@ -181,89 +192,106 @@ namespace MicroDBHelpers.ExpansionPack
                                         .Replace("\r\n", "\n")
                                         .Replace("\n", "\n ")
                                         .Trim();
-            
-            //create total count sql expression
-            string sqlCount     = String.Empty;
+
+            //Check Data legitimacy agian
+            if (selectSql.IndexOf("SELECT ",  StringComparison.OrdinalIgnoreCase) < 0)
+                throw new ArgumentException("[selectSql] must include the 'SELECT' keyword.", "selectSql");
+            if (selectSql.IndexOf("FROM ", StringComparison.OrdinalIgnoreCase) < 0)
+                throw new ArgumentException("[selectSql] must include the 'SELECT' keyword.", "selectSql");
 
 
-            //start after select
-            int beginPos        = SELECTSQL.IndexOf("SELECT ", StringComparison.OrdinalIgnoreCase) + 7;
-            int nextFormPos     = SELECTSQL.IndexOf("FROM ", beginPos, StringComparison.OrdinalIgnoreCase);
-            int nextSelectPos   = SELECTSQL.IndexOf("SELECT ", beginPos, StringComparison.OrdinalIgnoreCase);
+            try
+            {            
+                //create total count sql expression
+                string sqlCount     = String.Empty;
 
-            while (nextSelectPos > 0 && nextFormPos > nextSelectPos)
-            {
-                beginPos        = nextFormPos + 4;
+                //start after select
+                int beginPos        = SELECTSQL.IndexOf("SELECT ", StringComparison.OrdinalIgnoreCase) + 7;
+                int nextFormPos     = SELECTSQL.IndexOf("FROM ", beginPos, StringComparison.OrdinalIgnoreCase);
+                int nextSelectPos   = SELECTSQL.IndexOf("SELECT ", beginPos, StringComparison.OrdinalIgnoreCase);
 
-                nextFormPos     = SELECTSQL.IndexOf("FROM ", beginPos, StringComparison.OrdinalIgnoreCase);
-                nextSelectPos   = SELECTSQL.IndexOf("SELECT ", beginPos, StringComparison.OrdinalIgnoreCase);
+                while (nextSelectPos > 0 && nextFormPos > nextSelectPos)
+                {
+                    beginPos        = nextFormPos + 4;
+
+                    nextFormPos     = SELECTSQL.IndexOf("FROM ", beginPos, StringComparison.OrdinalIgnoreCase);
+                    nextSelectPos   = SELECTSQL.IndexOf("SELECT ", beginPos, StringComparison.OrdinalIgnoreCase);
+                }
+
+                string orderString  = "";
+                int endPos          = SELECTSQL.LastIndexOf("ORDER BY", StringComparison.OrdinalIgnoreCase);
+
+                if (endPos > 0)
+                {
+                    sqlCount        = "SELECT COUNT(*) " + SELECTSQL.Substring(nextFormPos, endPos - nextFormPos - 1);
+                    orderString     = SELECTSQL.Substring(endPos);
+                }
+                else
+                {
+                    sqlCount        = "SELECT COUNT(*) " + SELECTSQL.Substring(nextFormPos);
+                }
+
+
+                //----processing fixed sql----
+                sqlCount = fixedSql + "\r\n" + sqlCount;
+                //----------------------------
+
+
+                //get record total
+                DataTable dt = await executeAction(sqlCount, paramValues, commandType);
+
+                if (dt.Rows.Count > 0)
+                {
+                    totalCount = Convert.ToInt32(dt.Rows[0][0]);
+                }
+
+                //Search by paging
+                bool hasOffset = (pageIndex != 1);
+
+                //create limit sql expression
+                SELECTSQL = GetLimitSql(SELECTSQL, pageIndex, pageSize);
+
+                //add pading parameter
+                List<SqlParameter> paras = new List<SqlParameter>();
+                if (paramValues != null && paramValues.Length > 0)
+                    paras.AddRange(paramValues);
+
+                if (hasOffset)
+                {
+                    paras.Add(new SqlParameter("@x_rownum_from", ((pageIndex - 1) * pageSize + 1)));
+                    paras.Add(new SqlParameter("@x_rownum_to", pageSize * pageIndex));
+                }
+                else
+                {
+                    paras.Add(new SqlParameter("@x_rownum_to", pageSize * pageIndex));
+                }
+
+                //----processing fixed sql----
+                selectSql = fixedSql + "\r\n" + SELECTSQL;
+                //----------------------------
+
+                //exec sql expreession
+                DataTable querydt = await executeAction(SELECTSQL, paras.ToArray(), commandType);
+
+                //drop the [rownumber] column, which to only for paging
+                if (querydt != null)
+                    querydt.Columns.Remove("___rownumber___");
+
+                //return the result
+                return new DetailPagingRet
+                {
+                    querydt     = querydt,
+                    totalCount  = totalCount
+                };
             }
-
-            string orderString  = "";
-            int endPos          = SELECTSQL.LastIndexOf("ORDER BY", StringComparison.OrdinalIgnoreCase);
-
-            if (endPos > 0)
+            catch (Exception ex)
             {
-                sqlCount        = "SELECT COUNT(*) " + SELECTSQL.Substring(nextFormPos, endPos - nextFormPos - 1);
-                orderString     = SELECTSQL.Substring(endPos);
-            }
-            else
-            {
-                sqlCount        = "SELECT COUNT(*) " + SELECTSQL.Substring(nextFormPos);
-            }
+                var err = new InvalidOperationException("Unknown error when paging query, please try to check your sql expression. More informations about this exception, see the Exception.[Data] property.", ex);
+                err.Data.Add("current_sql_expression", fixedSql + "\n\n" + SELECTSQL);
+                err.Data.Add("rows_total_count", totalCount);
 
-
-            //----processing fixed sql----
-            sqlCount = fixedSql + "\r\n" + sqlCount;
-            //----------------------------
-
-
-            //get record total
-            DataTable dt = await executeAction(sqlCount, paramValues, commandType);
-
-            if (dt.Rows.Count > 0)
-            {
-                totalCount = Convert.ToInt32(dt.Rows[0][0]);
-            }
-
-            //Search by paging
-            bool hasOffset = (pageIndex != 1);
-
-            //create limit sql expression
-            SELECTSQL = GetLimitSql(SELECTSQL, pageIndex, pageSize);
-
-            //add pading parameter
-            List<SqlParameter> paras = new List<SqlParameter>();
-            if (paramValues != null && paramValues.Length > 0)
-                paras.AddRange(paramValues);
-
-            if (hasOffset)
-            {
-                paras.Add(new SqlParameter("@x_rownum_from", ((pageIndex - 1) * pageSize + 1)));
-                paras.Add(new SqlParameter("@x_rownum_to", pageSize * pageIndex));
-            }
-            else
-            {
-                paras.Add(new SqlParameter("@x_rownum_to", pageSize * pageIndex));
-            }
-
-            //----processing fixed sql----
-            selectSql = fixedSql + "\r\n" + SELECTSQL;
-            //----------------------------
-
-            //exec sql expreession
-            DataTable querydt = await executeAction(SELECTSQL, paras.ToArray(), commandType);
-
-            //drop the [rownumber] column, which to only for paging
-            if (querydt != null)
-                querydt.Columns.Remove("___rownumber___");
-
-            //return the result
-            return new DetailPagingRet
-            {
-                querydt     = querydt,
-                totalCount  = totalCount
-            };          
+                throw err;
+            }  
         }
         
 
