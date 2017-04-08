@@ -35,6 +35,60 @@
             <param name="connectionAliasName">the Alias Name of Connection (if not pass name,it will use the DEFAULT name instead.)</param>
             <param name="commandType">Text | StoredProcedure</param>
         </member>
+        <member name="M:MicroDBHelpers.ExpansionPack.PagingQuerier.PagingAsDatatable(System.Int32,System.Int32,System.String,System.String,System.Data.SqlClient.SqlParameter[],MicroDBHelpers.MicroDBTransaction,System.Data.CommandType)">
+            <summary>
+            Paging Datas by Database
+            </summary>
+            <typeparam name="T">Target Type</typeparam>
+            <param name="pageIndex">Current Index</param>
+            <param name="pageSize">Size of per Page</param>
+            <param name="fixedSql">The Sql which in the Front ( ex.  CTE Query begin with the Keyword "WITH" ) </param>
+            <param name="selectSql">The Sql which begin with Keyword "SELECT" </param>
+            <param name="paramValues">Parameters</param>
+            <param name="transaction">transaction</param>
+            <param name="commandType">Text | StoredProcedure</param>
+        </member>
+        <member name="M:MicroDBHelpers.ExpansionPack.PagingQuerier.PagingAsDatatableAsync(System.Int32,System.Int32,System.String,System.String,System.Data.SqlClient.SqlParameter[],MicroDBHelpers.MicroDBTransaction,System.Data.CommandType)">
+            <summary>
+            async Paging Datas by Database
+            </summary>
+            <typeparam name="T">Target Type</typeparam>
+            <param name="pageIndex">Current Index</param>
+            <param name="pageSize">Size of per Page</param>
+            <param name="fixedSql">The Sql which in the Front ( ex.  CTE Query begin with the Keyword "WITH" ) </param>
+            <param name="selectSql">The Sql which begin with Keyword "SELECT" </param>
+            <param name="paramValues">Parameters</param>
+            <param name="transaction">transaction</param>
+            <param name="commandType">Text | StoredProcedure</param>
+        </member>
+        <member name="M:MicroDBHelpers.ExpansionPack.PagingQuerier.PagingAsEntity``1(System.Int32,System.Int32,System.String,System.String,System.Data.SqlClient.SqlParameter[],System.String,System.Data.CommandType)">
+            <summary>
+            Paging Datas by Database <para />
+            (need to reference: MicroDBHelperExpansionPack.EntityConversion )
+            </summary>
+            <typeparam name="T">Target Type</typeparam>
+            <param name="pageIndex">Current Index</param>
+            <param name="pageSize">Size of per Page</param>
+            <param name="fixedSql">The Sql which in the Front ( ex.  CTE Query begin with the Keyword "WITH" ) </param>
+            <param name="selectSql">The Sql which begin with Keyword "SELECT" </param>
+            <param name="paramValues">Parameters</param>
+            <param name="connectionAliasName">the Alias Name of Connection (if not pass name,it will use the DEFAULT name instead.)</param>
+            <param name="commandType">Text | StoredProcedure</param>
+        </member>
+        <member name="M:MicroDBHelpers.ExpansionPack.PagingQuerier.PagingAsEntityAsync``1(System.Int32,System.Int32,System.String,System.String,System.Data.SqlClient.SqlParameter[],System.String,System.Data.CommandType)">
+            <summary>
+            async Paging Datas by Database <para />
+            (need to reference: MicroDBHelperExpansionPack.EntityConversion )
+            </summary>
+            <typeparam name="T">Target Type</typeparam>
+            <param name="pageIndex">Current Index</param>
+            <param name="pageSize">Size of per Page</param>
+            <param name="fixedSql">The Sql which in the Front ( ex.  CTE Query begin with the Keyword "WITH" ) </param>
+            <param name="selectSql">The Sql which begin with Keyword "SELECT" </param>
+            <param name="paramValues">Parameters</param>
+            <param name="connectionAliasName">the Alias Name of Connection (if not pass name,it will use the DEFAULT name instead.)</param>
+            <param name="commandType">Text | StoredProcedure</param>
+        </member>
         <member name="M:MicroDBHelpers.ExpansionPack.PagingQuerier.PagingAsEntity``1(System.Int32,System.Int32,System.String,System.String,System.Data.SqlClient.SqlParameter[],MicroDBHelpers.MicroDBTransaction,System.Data.CommandType)">
             <summary>
             Paging Datas by Database <para />
@@ -124,17 +178,17 @@
         </member>
         <member name="P:MicroDBHelpers.ExpansionPack.Internals.BasePagingResult`1.Datas">
             <summary>
-            Datas
+            Datas (Read Only)
             </summary>
         </member>
         <member name="P:MicroDBHelpers.ExpansionPack.Internals.BasePagingResult`1.CurrentPageIndex">
             <summary>
-            Current Index
+            Current Index (Read Only)
             </summary>
         </member>
         <member name="P:MicroDBHelpers.ExpansionPack.Internals.BasePagingResult`1.PageSize">
             <summary>
-            Size of per Page
+            Size of per Page (Read Only)
             </summary>
         </member>
         <member name="P:MicroDBHelpers.ExpansionPack.Internals.BasePagingResult`1.TotalItemsCount">
@@ -144,7 +198,7 @@
         </member>
         <member name="P:MicroDBHelpers.ExpansionPack.Internals.BasePagingResult`1.TotalPages">
             <summary>
-            Count of all pages
+            Count of all pages (Read Only)
             </summary>
         </member>
         <member name="T:MicroDBHelpers.ExpansionPack.PagingResult">

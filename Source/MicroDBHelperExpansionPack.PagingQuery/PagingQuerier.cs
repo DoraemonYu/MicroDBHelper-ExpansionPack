@@ -70,6 +70,115 @@ namespace MicroDBHelpers.ExpansionPack
             return new PagingResult(ret.querydt, pageIndex, pageSize, ret.totalCount);
         }
 
+        /// <summary>
+        /// Paging Datas by Database
+        /// </summary>
+        /// <typeparam name="T">Target Type</typeparam>
+        /// <param name="pageIndex">Current Index</param>
+        /// <param name="pageSize">Size of per Page</param>
+        /// <param name="fixedSql">The Sql which in the Front ( ex.  CTE Query begin with the Keyword "WITH" ) </param>
+        /// <param name="selectSql">The Sql which begin with Keyword "SELECT" </param>
+        /// <param name="paramValues">Parameters</param>
+        /// <param name="transaction">transaction</param>
+        /// <param name="commandType">Text | StoredProcedure</param>
+        public static PagingResult PagingAsDatatable(int pageIndex, int pageSize,
+                                                     string fixedSql, string selectSql, SqlParameter[] paramValues,
+                                                     MicroDBTransaction transaction, CommandType commandType = CommandType.Text
+                                                     )
+        {
+            try
+            {
+                return PagingAsDatatableAsync(pageIndex, pageSize, fixedSql, selectSql, paramValues, transaction, commandType).Result;
+            }
+            catch (Exception ex)
+            {
+                throw ex.GetBaseException();
+            }
+        }
+
+        /// <summary>
+        /// async Paging Datas by Database
+        /// </summary>
+        /// <typeparam name="T">Target Type</typeparam>
+        /// <param name="pageIndex">Current Index</param>
+        /// <param name="pageSize">Size of per Page</param>
+        /// <param name="fixedSql">The Sql which in the Front ( ex.  CTE Query begin with the Keyword "WITH" ) </param>
+        /// <param name="selectSql">The Sql which begin with Keyword "SELECT" </param>
+        /// <param name="paramValues">Parameters</param>
+        /// <param name="transaction">transaction</param>
+        /// <param name="commandType">Text | StoredProcedure</param>
+        public static async Task<PagingResult> PagingAsDatatableAsync(int pageIndex, int pageSize,
+                                                                      string fixedSql, string selectSql, SqlParameter[] paramValues,
+                                                                      MicroDBTransaction transaction, CommandType commandType = CommandType.Text
+                                                                      )
+        {
+            ExecuteDelegate action = async (m_Sql, m_paramValues, m_commandType) =>
+            {
+                return await MicroDBHelper.ExecuteDataTableAsync(m_Sql, m_paramValues, transaction, m_commandType);
+            };
+
+            var ret = await DetailPagingAsync(action, pageIndex, pageSize, fixedSql, selectSql, paramValues, commandType);
+            return new PagingResult(ret.querydt, pageIndex, pageSize, ret.totalCount);
+        }
+
+
+
+
+        /// <summary>
+        /// Paging Datas by Database <para />
+        /// (need to reference: MicroDBHelperExpansionPack.EntityConversion )
+        /// </summary>
+        /// <typeparam name="T">Target Type</typeparam>
+        /// <param name="pageIndex">Current Index</param>
+        /// <param name="pageSize">Size of per Page</param>
+        /// <param name="fixedSql">The Sql which in the Front ( ex.  CTE Query begin with the Keyword "WITH" ) </param>
+        /// <param name="selectSql">The Sql which begin with Keyword "SELECT" </param>
+        /// <param name="paramValues">Parameters</param>
+        /// <param name="connectionAliasName">the Alias Name of Connection (if not pass name,it will use the DEFAULT name instead.)</param>
+        /// <param name="commandType">Text | StoredProcedure</param>
+        public static PagingResult<T> PagingAsEntity<T>(int pageIndex, int pageSize,
+                                                        string fixedSql, string selectSql, SqlParameter[] paramValues,
+                                                        string connectionAliasName = MicroDBHelper.ALIAS_NAME_DEFAULT, CommandType commandType = CommandType.Text
+                                                        )
+                                               where T : class
+        {
+            try
+            {
+                return PagingAsEntityAsync<T>(pageIndex, pageSize, fixedSql, selectSql, paramValues, connectionAliasName, commandType).Result;
+            }
+            catch (Exception ex)
+            {
+                throw ex.GetBaseException();
+            }
+        }
+
+        /// <summary>
+        /// async Paging Datas by Database <para />
+        /// (need to reference: MicroDBHelperExpansionPack.EntityConversion )
+        /// </summary>
+        /// <typeparam name="T">Target Type</typeparam>
+        /// <param name="pageIndex">Current Index</param>
+        /// <param name="pageSize">Size of per Page</param>
+        /// <param name="fixedSql">The Sql which in the Front ( ex.  CTE Query begin with the Keyword "WITH" ) </param>
+        /// <param name="selectSql">The Sql which begin with Keyword "SELECT" </param>
+        /// <param name="paramValues">Parameters</param>
+        /// <param name="connectionAliasName">the Alias Name of Connection (if not pass name,it will use the DEFAULT name instead.)</param>
+        /// <param name="commandType">Text | StoredProcedure</param>
+        public static async Task<PagingResult<T>> PagingAsEntityAsync<T>(int pageIndex, int pageSize,
+                                                                         string fixedSql, string selectSql, SqlParameter[] paramValues,
+                                                                         string connectionAliasName = MicroDBHelper.ALIAS_NAME_DEFAULT, CommandType commandType = CommandType.Text
+                                                                         )
+                                        where T : class
+        {
+            ExecuteDelegate action = async (m_Sql, m_paramValues, m_commandType) =>
+            {
+                return await MicroDBHelper.ExecuteDataTableAsync(m_Sql, m_paramValues, connectionAliasName, m_commandType);
+            };
+
+            var ret = await DetailPagingAsync(action, pageIndex, pageSize, fixedSql, selectSql, paramValues, commandType);
+            return new PagingResult<T>(EntityConvert.ConvertToList<T>(ret.querydt), pageIndex, pageSize, ret.totalCount);
+        }
+
 
         /// <summary>
         /// Paging Datas by Database <para />
@@ -87,9 +196,16 @@ namespace MicroDBHelpers.ExpansionPack
                                                         string fixedSql, string selectSql, SqlParameter[] paramValues,
                                                         MicroDBTransaction transaction, CommandType commandType = CommandType.Text
                                                         )
-                             where T : class
+                                               where T : class
         {
-            return PagingAsEntityAsync<T>(pageIndex, pageSize, fixedSql, selectSql, paramValues, transaction, commandType).Result;
+            try
+            {
+                return PagingAsEntityAsync<T>(pageIndex, pageSize, fixedSql, selectSql, paramValues, transaction, commandType).Result;
+            }
+            catch (Exception ex)
+            {
+                throw ex.GetBaseException();
+            }
         }
 
         /// <summary>

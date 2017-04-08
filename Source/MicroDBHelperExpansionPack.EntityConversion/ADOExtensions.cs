@@ -32,7 +32,7 @@ namespace System.Data
             var plist       = new List<PropertyInfo>(typeof(T).GetProperties());
 
             //get dic<Propertie,ColumnAttribute>
-            var pdic = plist.Select(o => new { Properties = o, ColumnAttribute = o.GetCustomAttribute(typeof(ColumnAttribute)) as ColumnAttribute })
+            var pdic = plist.Select(o => new { Properties = o, ColumnAttribute = Attribute.GetCustomAttribute(o,typeof(ColumnAttribute)) as ColumnAttribute })
                             .ToDictionary(o => o.Properties );
             
 
@@ -64,14 +64,14 @@ namespace System.Data
                                 /* own ColumnAttribute, then use the rule from ColumnAttribute  */
 
                                 bool ignoreCase = !colAtt.CaseSensitiveToMatchedName;
-                                return String.Compare(o.Name, colAtt.MatchedName, ignoreCase) == 0;
+                                return String.Compare(dt.Columns[i].ColumnName , colAtt.MatchedName, ignoreCase) == 0;
                             }
                             else
                             {
                                 /* Not own ColumnAttribute, then check "CaseSensitive" rule from EntityConversionDefaultSettings and "MatchedName" from  "Same as DataColumn::ColumnName" */
 
                                 bool ignoreCase = !EntityConversionDefaultSettings.CaseSensitiveToColumnName;
-                                return String.Compare(o.Name, dt.Columns[i].ColumnName, ignoreCase) == 0;
+                                return String.Compare(dt.Columns[i].ColumnName , o.Name, ignoreCase) == 0;
                             }
                         });
 
@@ -81,15 +81,17 @@ namespace System.Data
                         {
                             if (!Convert.IsDBNull(item[i]))
                             {
-                                info.SetValue(current, item[i], null);
+                                Console.WriteLine("# {0}, {1}, {2}", info.Name , info.PropertyType, item[i] );
+                                info.SetValue(current, Convert.ChangeType(item[i],info.PropertyType) , null);
                             }
                         }
                     }
 
                     list.Add(current);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    //Console.WriteLine(ex.GetBaseException());
                     continue;
                 }
             }

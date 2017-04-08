@@ -23,31 +23,31 @@ namespace MicroDBHelpers.ExpansionPack.Internals
         #region Data Collection
 
         /// <summary>
-        /// Datas
+        /// Datas (Read Only)
         /// </summary>
-        public TData Datas { get; set; }
+        public TData Datas { get; private set; }
 
         #endregion
 
         #region Status
 
         /// <summary>
-        /// Current Index
+        /// Current Index (Read Only)
         /// </summary>
-        public int CurrentPageIndex { get; set; }
+        public int CurrentPageIndex { get; private set; }
 
         /// <summary>
-        /// Size of per Page
+        /// Size of per Page (Read Only)
         /// </summary>
-        public int PageSize { get; set; }
+        public int PageSize { get; private set; }
 
         /// <summary>
         /// Count of all items
         /// </summary>
-        public int TotalItemsCount { get; set; }
+        public int TotalItemsCount { get; private set; }
 
         /// <summary>
-        /// Count of all pages
+        /// Count of all pages (Read Only)
         /// </summary>
         public int TotalPages
         {
