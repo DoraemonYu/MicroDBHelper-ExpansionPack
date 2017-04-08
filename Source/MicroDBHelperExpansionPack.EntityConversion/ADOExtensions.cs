@@ -81,7 +81,6 @@ namespace System.Data
                         {
                             if (!Convert.IsDBNull(item[i]))
                             {
-                                Console.WriteLine("# {0}, {1}, {2}", info.Name , info.PropertyType, item[i] );
                                 info.SetValue(current, Convert.ChangeType(item[i],info.PropertyType) , null);
                             }
                         }
@@ -89,9 +88,8 @@ namespace System.Data
 
                     list.Add(current);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    //Console.WriteLine(ex.GetBaseException());
                     continue;
                 }
             }

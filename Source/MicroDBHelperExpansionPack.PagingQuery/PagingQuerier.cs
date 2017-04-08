@@ -22,7 +22,6 @@ namespace MicroDBHelpers.ExpansionPack
         /// <summary>
         /// Paging Datas by Database
         /// </summary>
-        /// <typeparam name="T">Target Type</typeparam>
         /// <param name="pageIndex">Current Index</param>
         /// <param name="pageSize">Size of per Page</param>
         /// <param name="fixedSql">The Sql which in the Front ( ex.  CTE Query begin with the Keyword "WITH" ) </param>
@@ -48,7 +47,6 @@ namespace MicroDBHelpers.ExpansionPack
         /// <summary>
         /// async Paging Datas by Database
         /// </summary>
-        /// <typeparam name="T">Target Type</typeparam>
         /// <param name="pageIndex">Current Index</param>
         /// <param name="pageSize">Size of per Page</param>
         /// <param name="fixedSql">The Sql which in the Front ( ex.  CTE Query begin with the Keyword "WITH" ) </param>
@@ -73,7 +71,6 @@ namespace MicroDBHelpers.ExpansionPack
         /// <summary>
         /// Paging Datas by Database
         /// </summary>
-        /// <typeparam name="T">Target Type</typeparam>
         /// <param name="pageIndex">Current Index</param>
         /// <param name="pageSize">Size of per Page</param>
         /// <param name="fixedSql">The Sql which in the Front ( ex.  CTE Query begin with the Keyword "WITH" ) </param>
@@ -99,7 +96,6 @@ namespace MicroDBHelpers.ExpansionPack
         /// <summary>
         /// async Paging Datas by Database
         /// </summary>
-        /// <typeparam name="T">Target Type</typeparam>
         /// <param name="pageIndex">Current Index</param>
         /// <param name="pageSize">Size of per Page</param>
         /// <param name="fixedSql">The Sql which in the Front ( ex.  CTE Query begin with the Keyword "WITH" ) </param>
