@@ -5,13 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MicroDBHelpers.ExpansionPack
+
+namespace MicroDBHelpers.ExpansionPack.Internals
 {
+    #region BasePagingResult
+
     /// <summary>
-    /// The result after Paging Query
+    /// base class of PagingResult models. <para />
+    /// (please NOT to use this class directly, use specific PagingResult models instead )
     /// </summary>
-    public class PagingResult<T> : IEnumerable<T>, IEnumerable
-                        where T : class
+    public abstract class BasePagingResult<TData>
+                                     where TData : class
     {
 
         //--------Members---------
@@ -21,23 +25,7 @@ namespace MicroDBHelpers.ExpansionPack
         /// <summary>
         /// Datas
         /// </summary>
-        IEnumerable<T> Datas { get; set; }
-        
-        /// <summary>
-        /// Returns an enumerator that iterates through the collection.
-        /// </summary>
-        public IEnumerator<T> GetEnumerator()
-        {
-            return Datas.AsQueryable().GetEnumerator();
-        }
-
-        /// <summary>
-        /// Returns an enumerator that iterates through the collection.
-        /// </summary>
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return Datas.GetEnumerator();
-        }
+        public TData Datas { get; set; }
 
         #endregion
 
@@ -78,6 +66,93 @@ namespace MicroDBHelpers.ExpansionPack
         //--------Control---------
 
         #region Constructor
+
+        //Hide
+        private BasePagingResult()
+        {
+        }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="datas">Entitys</param>
+        /// <param name="pageIndex">Current Index</param>
+        /// <param name="pageSize">Size of per Page</param>
+        /// <param name="TotalCount">Count of all items</param>
+        internal BasePagingResult(TData datas, int pageIndex, int pageSize, int TotalCount)
+        {
+            Datas               = datas;
+            CurrentPageIndex    = pageIndex;
+            PageSize            = pageSize;
+            TotalItemsCount     = TotalCount;
+        }
+
+        #endregion
+
+    }
+
+    #endregion
+}
+
+
+namespace MicroDBHelpers.ExpansionPack
+{
+    #region DataTable Type Result
+
+    /// <summary>
+    /// The result after Paging Query (DataTable Type)
+    /// </summary>
+    public sealed class PagingResult : MicroDBHelpers.ExpansionPack.Internals.BasePagingResult<System.Data.DataTable>
+    {
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="datas">DataTable</param>
+        /// <param name="pageIndex">Current Index</param>
+        /// <param name="pageSize">Size of per Page</param>
+        /// <param name="TotalCount">Count of all items</param>
+        public PagingResult(System.Data.DataTable datas, int pageIndex, int pageSize, int TotalCount)
+                      :base(datas, pageIndex, pageSize, TotalCount)
+        {
+        }
+    }
+
+    #endregion
+
+
+    /// <summary>
+    /// The result after Paging Query (Entity Type)
+    /// </summary>
+    public sealed class PagingResult<T> : MicroDBHelpers.ExpansionPack.Internals.BasePagingResult<IEnumerable<T>>, IEnumerable<T>, IEnumerable
+                               where T : class
+    {
+
+        //--------Members---------
+
+        #region Data Collection
+        
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        public IEnumerator<T> GetEnumerator()
+        {
+            return Datas.AsQueryable().GetEnumerator();
+        }
+
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return Datas.GetEnumerator();
+        }
+
+        #endregion
+
+
+        //--------Control---------
+
+        #region Constructor
         
         /// <summary>
         /// Constructor
@@ -87,11 +162,8 @@ namespace MicroDBHelpers.ExpansionPack
         /// <param name="pageSize">Size of per Page</param>
         /// <param name="TotalCount">Count of all items</param>
         public PagingResult(IEnumerable<T> datas, int pageIndex, int pageSize, int TotalCount)
+                     : base(datas, pageIndex, pageSize, TotalCount)
         {
-            Datas               = datas;            
-            CurrentPageIndex    = pageIndex;
-            PageSize            = pageSize;
-            TotalItemsCount     = TotalCount;
         }
         		 
 	    #endregion

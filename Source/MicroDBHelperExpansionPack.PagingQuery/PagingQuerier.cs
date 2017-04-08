@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MicroDBHelpers;
 
 namespace MicroDBHelpers.ExpansionPack
 {
@@ -29,13 +30,12 @@ namespace MicroDBHelpers.ExpansionPack
         /// <param name="paramValues">Parameters</param>
         /// <param name="connectionAliasName">the Alias Name of Connection (if not pass name,it will use the DEFAULT name instead.)</param>
         /// <param name="commandType">Text | StoredProcedure</param>
-        public static PagingResult<T> Paging<T>(int pageIndex,int pageSize,
-                                         string fixedSql,string selectSql, SqlParameter[] paramValues,
-                                         string connectionAliasName = MicroDBHelper.ALIAS_NAME_DEFAULT, CommandType commandType = CommandType.Text
-                                         )
-                             where T : class
+        public static PagingResult PagingAsDatatable(int pageIndex,int pageSize,
+                                                     string fixedSql,string selectSql, SqlParameter[] paramValues,
+                                                     string connectionAliasName = MicroDBHelper.ALIAS_NAME_DEFAULT, CommandType commandType = CommandType.Text
+                                                     )
         {
-            return PagingAsync<T>(pageIndex, pageSize, fixedSql, selectSql, paramValues, connectionAliasName, commandType).Result;
+            return PagingAsDatatableAsync(pageIndex, pageSize, fixedSql, selectSql, paramValues, connectionAliasName, commandType).Result;
         }
 
         /// <summary>
@@ -49,23 +49,24 @@ namespace MicroDBHelpers.ExpansionPack
         /// <param name="paramValues">Parameters</param>
         /// <param name="connectionAliasName">the Alias Name of Connection (if not pass name,it will use the DEFAULT name instead.)</param>
         /// <param name="commandType">Text | StoredProcedure</param>
-        public static async Task<PagingResult<T>> PagingAsync<T>(int pageIndex, int pageSize,
-                                                    string fixedSql, string selectSql, SqlParameter[] paramValues,
-                                                    string connectionAliasName = MicroDBHelper.ALIAS_NAME_DEFAULT, CommandType commandType = CommandType.Text
-                                                    )
-                                        where T : class
+        public static async Task<PagingResult> PagingAsDatatableAsync(int pageIndex, int pageSize,
+                                                                      string fixedSql, string selectSql, SqlParameter[] paramValues,
+                                                                      string connectionAliasName = MicroDBHelper.ALIAS_NAME_DEFAULT, CommandType commandType = CommandType.Text
+                                                                      )
         {
             ExecuteDelegate action = async (m_Sql, m_paramValues, m_commandType) =>
             {
                 return await MicroDBHelper.ExecuteDataTableAsync(m_Sql, m_paramValues, connectionAliasName, m_commandType);
             };
 
-            return await DetailPagingAsync<T>(action, pageIndex, pageSize, fixedSql, selectSql, paramValues, commandType); ;
+            var ret = await DetailPagingAsync(action, pageIndex, pageSize, fixedSql, selectSql, paramValues, commandType);
+            return new PagingResult(ret.querydt, pageIndex, pageSize, ret.totalCount);
         }
 
 
         /// <summary>
-        /// Paging Datas by Database
+        /// Paging Datas by Database <para />
+        /// (need to reference: MicroDBHelperExpansionPack.EntityConversion )
         /// </summary>
         /// <typeparam name="T">Target Type</typeparam>
         /// <param name="pageIndex">Current Index</param>
@@ -75,17 +76,18 @@ namespace MicroDBHelpers.ExpansionPack
         /// <param name="paramValues">Parameters</param>
         /// <param name="transaction">transaction</param>
         /// <param name="commandType">Text | StoredProcedure</param>
-        public static PagingResult<T> Paging<T>(int pageIndex, int pageSize,
-                                                string fixedSql, string selectSql, SqlParameter[] paramValues,
-                                                MicroDBTransaction transaction, CommandType commandType = CommandType.Text
-                                                )
+        public static PagingResult<T> PagingAsEntity<T>(int pageIndex, int pageSize,
+                                                        string fixedSql, string selectSql, SqlParameter[] paramValues,
+                                                        MicroDBTransaction transaction, CommandType commandType = CommandType.Text
+                                                        )
                              where T : class
         {
-            return PagingAsync<T>(pageIndex, pageSize, fixedSql, selectSql, paramValues, transaction, commandType).Result;
+            return PagingAsEntityAsync<T>(pageIndex, pageSize, fixedSql, selectSql, paramValues, transaction, commandType).Result;
         }
 
         /// <summary>
-        /// async Paging Datas by Database
+        /// async Paging Datas by Database <para />
+        /// (need to reference: MicroDBHelperExpansionPack.EntityConversion )
         /// </summary>
         /// <typeparam name="T">Target Type</typeparam>
         /// <param name="pageIndex">Current Index</param>
@@ -95,10 +97,10 @@ namespace MicroDBHelpers.ExpansionPack
         /// <param name="paramValues">Parameters</param>
         /// <param name="transaction">transaction</param>
         /// <param name="commandType">Text | StoredProcedure</param>
-        public static async Task<PagingResult<T>> PagingAsync<T>(int pageIndex, int pageSize,
-                                                                 string fixedSql, string selectSql, SqlParameter[] paramValues,
-                                                                 MicroDBTransaction transaction, CommandType commandType = CommandType.Text
-                                                                 )
+        public static async Task<PagingResult<T>> PagingAsEntityAsync<T>(int pageIndex, int pageSize,
+                                                                         string fixedSql, string selectSql, SqlParameter[] paramValues,
+                                                                         MicroDBTransaction transaction, CommandType commandType = CommandType.Text
+                                                                         )
                                         where T : class
         {
             ExecuteDelegate action = async (m_Sql, m_paramValues, m_commandType) =>
@@ -106,7 +108,8 @@ namespace MicroDBHelpers.ExpansionPack
                 return await MicroDBHelper.ExecuteDataTableAsync(m_Sql, m_paramValues, transaction, m_commandType);
             };
 
-            return await DetailPagingAsync<T>(action, pageIndex, pageSize, fixedSql, selectSql, paramValues, commandType); ;
+            var ret = await DetailPagingAsync(action, pageIndex, pageSize, fixedSql, selectSql, paramValues, commandType);
+            return new PagingResult<T>(EntityConvert.ConvertToList<T>(ret.querydt), pageIndex, pageSize, ret.totalCount);
         }
         
 
@@ -153,17 +156,25 @@ namespace MicroDBHelpers.ExpansionPack
         delegate Task<DataTable> ExecuteDelegate(string Sql, SqlParameter[] paramValues, CommandType commandType);
 
         /// <summary>
+        /// result from DetailPaging
+        /// </summary>
+        private class DetailPagingRet
+        {
+            public DataTable querydt    { get; set; }
+            public int       totalCount { get; set; }
+        }
+
+        /// <summary>
         /// Detail to PagingAsync
         /// </summary>
-        private static async Task<PagingResult<T>> DetailPagingAsync<T>(ExecuteDelegate executeAction,
-                                                   int pageIndex, int pageSize,
-                                                   string fixedSql, string selectSql, SqlParameter[] paramValues,
-                                                   CommandType commandType = CommandType.Text                                                   
-                                                   )
-                                        where T : class
+        private static async Task<DetailPagingRet> DetailPagingAsync(ExecuteDelegate executeAction,
+                                                                     int pageIndex, int pageSize,
+                                                                     string fixedSql, string selectSql, SqlParameter[] paramValues,
+                                                                     CommandType commandType = CommandType.Text                                                   
+                                                                     )
         {
             //init total count
-            int totalCount = 0;
+            int totalCount   = 0;
 
             //pre-deal some chars which may effect the logic
             string SELECTSQL = selectSql.Replace("\t"," ")
@@ -172,33 +183,33 @@ namespace MicroDBHelpers.ExpansionPack
                                         .Trim();
             
             //create total count sql expression
-            string sqlCount = String.Empty;
+            string sqlCount     = String.Empty;
 
 
             //start after select
-            int beginPos = SELECTSQL.IndexOf("SELECT ", StringComparison.OrdinalIgnoreCase) + 7;
-            int nextFormPos = SELECTSQL.IndexOf("FROM ", beginPos, StringComparison.OrdinalIgnoreCase);
-            int nextSelectPos = SELECTSQL.IndexOf("SELECT ", beginPos, StringComparison.OrdinalIgnoreCase);
+            int beginPos        = SELECTSQL.IndexOf("SELECT ", StringComparison.OrdinalIgnoreCase) + 7;
+            int nextFormPos     = SELECTSQL.IndexOf("FROM ", beginPos, StringComparison.OrdinalIgnoreCase);
+            int nextSelectPos   = SELECTSQL.IndexOf("SELECT ", beginPos, StringComparison.OrdinalIgnoreCase);
 
             while (nextSelectPos > 0 && nextFormPos > nextSelectPos)
             {
-                beginPos = nextFormPos + 4;
+                beginPos        = nextFormPos + 4;
 
-                nextFormPos = SELECTSQL.IndexOf("FROM ", beginPos, StringComparison.OrdinalIgnoreCase);
-                nextSelectPos = SELECTSQL.IndexOf("SELECT ", beginPos, StringComparison.OrdinalIgnoreCase);
+                nextFormPos     = SELECTSQL.IndexOf("FROM ", beginPos, StringComparison.OrdinalIgnoreCase);
+                nextSelectPos   = SELECTSQL.IndexOf("SELECT ", beginPos, StringComparison.OrdinalIgnoreCase);
             }
 
-            string orderString = "";
-            int endPos = SELECTSQL.LastIndexOf("ORDER BY", StringComparison.OrdinalIgnoreCase);
+            string orderString  = "";
+            int endPos          = SELECTSQL.LastIndexOf("ORDER BY", StringComparison.OrdinalIgnoreCase);
 
             if (endPos > 0)
             {
-                sqlCount = "SELECT COUNT(*) " + SELECTSQL.Substring(nextFormPos, endPos - nextFormPos - 1);
-                orderString = SELECTSQL.Substring(endPos);
+                sqlCount        = "SELECT COUNT(*) " + SELECTSQL.Substring(nextFormPos, endPos - nextFormPos - 1);
+                orderString     = SELECTSQL.Substring(endPos);
             }
             else
             {
-                sqlCount = "SELECT COUNT(*) " + SELECTSQL.Substring(nextFormPos);
+                sqlCount        = "SELECT COUNT(*) " + SELECTSQL.Substring(nextFormPos);
             }
 
 
@@ -240,10 +251,11 @@ namespace MicroDBHelpers.ExpansionPack
 
             //exec sql expreession
             DataTable querydt = await executeAction(SELECTSQL, paras.ToArray(), commandType);
-
-            //combine result
-            PagingResult<T> result = new PagingResult<T>(EntityConvert.ConvertToList<T>(querydt), pageIndex, pageSize, totalCount);
-            return result;
+            return new DetailPagingRet
+            {
+                querydt     = querydt,
+                totalCount  = totalCount
+            };          
         }
         
 
