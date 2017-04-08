@@ -234,7 +234,9 @@ namespace MicroDBHelpers.ExpansionPack
 
             //add pading parameter
             List<SqlParameter> paras = new List<SqlParameter>();
-            paras.AddRange(paramValues);
+            if (paramValues != null)
+                paras.AddRange(paramValues);
+
             if (hasOffset)
             {
                 paras.Add(new SqlParameter("@x_rownum_from", ((pageIndex - 1) * pageSize + 1)));
@@ -251,6 +253,12 @@ namespace MicroDBHelpers.ExpansionPack
 
             //exec sql expreession
             DataTable querydt = await executeAction(SELECTSQL, paras.ToArray(), commandType);
+
+            //drop the [rownumber] column, which to only for paging
+            if (querydt != null)
+                querydt.Columns.Remove("___rownumber___");
+
+            //return the result
             return new DetailPagingRet
             {
                 querydt     = querydt,
@@ -296,7 +304,7 @@ namespace MicroDBHelpers.ExpansionPack
                 pagingSelect.Append(sql.Substring(startOfSelect + 6)); // add the main query
             }
 
-            pagingSelect.Append(" ) as temp_ where rownumber_ ");
+            pagingSelect.Append(" ) as temp_ where ___rownumber___ ");
 
             //add the restriction to the outer select
             if (hasOffset)
@@ -315,8 +323,7 @@ namespace MicroDBHelpers.ExpansionPack
         /// Get number of row
         /// </summary>
         /// <param name="sql">sql expression</param>
-        private static string GetRowNumber(
-            string sql)
+        private static string GetRowNumber(string sql)
         {
 
             StringBuilder rownumber = new StringBuilder(50).Append("ROW_NUMBER() OVER(");
@@ -326,13 +333,17 @@ namespace MicroDBHelpers.ExpansionPack
             {
                 rownumber.Append(sql.Substring(orderByIndex));
             }
-            else
+            else if (orderByIndex > 0)
             {
-                string orderby      = sql;
+                string orderby = sql;
                 rownumber.Append(string.Format(" ORDER BY {0} ", orderby.Substring(orderby.LastIndexOf("["), orderby.LastIndexOf("]") - orderby.LastIndexOf("[") + 1)));
             }
+            else
+            {
+                rownumber.Append(" ORDER BY (SELECT NULL) ");
+            }
 
-            rownumber.Append(") as rownumber_,");
+            rownumber.Append(") as ___rownumber___,");
 
             return rownumber.ToString();
         }
