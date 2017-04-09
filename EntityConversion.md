@@ -9,6 +9,10 @@ This expansion pack is focus on convert DataTable object to target entity model.
 * .Net framework 4.0 and +
 
 
+## Dependencies 
+None.
+
+
 ## Usage
 
 ### Define your model class 
