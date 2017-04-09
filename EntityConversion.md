@@ -27,7 +27,7 @@ class Model
 There are two alternatives: 
 * **Static method**. `EntityConvert.ConvertToList<Model>(DataTableObject);`  Pass the model's type to **Generic Type Parameter** and DataTable object to **Method Parameter**. Then it will return a collection with type of `IList<Model>`.
  
-* **Extended method**. `DataTableObject.ToList<Model>();` using the namespaces of **MicroDBHelpers.ExpansionPack**, then you can use this way.  Then it will return a collection with type of `IList<Model>`.
+* **Extended method**. `DataTableObject.ToList<Model>();` using the namespaces of **System.Data** (the namespaces same as DataTable) in your code file, then you can use this way.  Then it will return a collection with type of `IList<Model>`.
 
 
 
