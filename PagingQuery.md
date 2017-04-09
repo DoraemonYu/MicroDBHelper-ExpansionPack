@@ -49,12 +49,6 @@ More about his **fixedSql** and  **selectSql** :
 ![snapshot](images/PagingQuery/part_sqls.PNG)
 
 
-<br><br><br>
-Please note again, if you set the `EntityConversionDefaultSettings.CaseSensitiveToColumnName` and use `ColumnAttribute` **both**, then the finall rule of Case sensitive to **that one property** would in `ColumnAttribute` prevail. 
-
-
-
-
 
 ## Download compiled binary file
 If you needn't to got the code and bulid by yourself for the moment, I also offer the newest compiled file in the BUILD directiory for your convenience. 
