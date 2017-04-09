@@ -36,7 +36,7 @@ There are two alternatives in **MicroDBHelpers.ExpansionPack.PagingQuerier** sta
 * `PagingAsEntity` and `PagingAsEntityAsync`. This will return `PagingResult<T>` (entity list of target type in **Datas** property), **note** that you need to reference [EntityConversion](/MicroDBHelper-ExpansionPack/EntityConversion/) when you choose this alternative ;
  
  
-There some key parameters in these query method:
+There are some key parameters in these query method:
 * **pageIndex** and **pageSize**. Indicate how you want to paginate. 
 
   *BTW, it's useful that you can pass a big number to **pageSize** (such as int.MaxValue) in order to get all datas in some scenes.*
