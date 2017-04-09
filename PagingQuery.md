@@ -10,6 +10,12 @@ This expansion pack is focus on paging query.
 * .Net framework 4.5 and +
 
 
+## Dependencies 
+* [MicroDBHelper](/MicroDBHelper/)
+* [MicroDBHelper-ExpansionPack-EntityConversion](/MicroDBHelper-ExpansionPack/EntityConversion)
+
+
+
 ## Usage
 
 ### Result container 
