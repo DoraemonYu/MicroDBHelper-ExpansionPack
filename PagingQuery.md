@@ -17,9 +17,9 @@ Firstly, let us see the result models,  `PagingResult` and `PagingResult<T>`.
 
 The former include **DataTable object** result, the latter include **entity list of target type** result.  
 
-|   | PagingResult | PagingResult<T> |
+|   | PagingResult | PagingResult&lt;T&gt; |
 | ------| ------ | ------ |
-| .Datas | `DataTable` | `IList<T>` |
+| .Datas | DataTable | IList&lt;T&gt; |
 | .CurrentPageIndex | Current Index | Current Index |
 | .PageSize | Size of per Page | Size of per Page |
 | .TotalItemsCount | Count of all items | Count of all items |
@@ -29,7 +29,7 @@ The former include **DataTable object** result, the latter include **entity list
 
 
 ### Call query method 
-There are two alternatives in MicroDBHelpers.ExpansionPack.PagingQuerier static class : 
+There are two alternatives in **MicroDBHelpers.ExpansionPack.PagingQuerier** static class : 
 * `PagingAsDatatable` and `PagingAsDatatableAsync`. This will return `PagingResult` (DataTabel result in **Datas** property);
  
 * `PagingAsEntity` and `PagingAsEntityAsync`. This will return `PagingResult<T>` (entity list of target type in **Datas** property), **note** that you need to reference [EntityConversion](/MicroDBHelper-ExpansionPack/EntityConversion/) when you choose this alternative ;
