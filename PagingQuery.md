@@ -29,7 +29,7 @@ The former include **DataTable object** result, the latter include **entity list
 
 
 ### Call query method 
-#### Paging Datas by Database
+#### Paging datas by Database
 There are two alternatives in **MicroDBHelpers.ExpansionPack.PagingQuerier** static class : 
 * `PagingAsDatatable` and `PagingAsDatatableAsync`. This will return `PagingResult` (DataTabel result in **Datas** property);
  
@@ -49,7 +49,7 @@ More about his **fixedSql** and  **selectSql** :
 
 ![snapshot](images/PagingQuery/part_sqls.PNG)
 
-#### Directly Paging entities in Memory
+#### Directly paging entities In Memory
 This is *Just a helper function* for developers who hope to "Paging Datas in Memory" and use the "PagingResult Model". 
 
 ```
