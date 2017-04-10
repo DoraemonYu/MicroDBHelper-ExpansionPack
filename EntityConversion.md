@@ -1,8 +1,8 @@
 ![icon](https://github.com/DoraemonYu/MicroDBHelper-ExpansionPack/blob/gh-pages/icons/EntityConversion.png?raw=true)  
 # ExpansionPack :: EntityConversion  
-This expansion pack is focus on convert DataTable object to target entity model.  
+This expansion pack is focus on convert DataTable object to entity models with specified type.  
 
-*The root section of documents of **all optional expansion pack**, please visit [here](/MicroDBHelper-ExpansionPack/).*
+*The root section of documents of **all optional expansion packs**, please visit [here](/MicroDBHelper-ExpansionPack/).*
 
 
 ## Environmental Requirement
@@ -16,7 +16,7 @@ None.
 ## Usage
 
 ### Define your model class 
-Firstly, define the data model class. Set the target **propertys** to **Public**, which is ready to automatically map with the data column. 
+Firstly, define the data model class. Set the target **propertys** to **Public**, that is ready to automatically map with the data column. 
 For example, 
 ``` 
 class Model
@@ -28,19 +28,19 @@ class Model
 
 ### Call conversion method 
 There are two alternatives: 
-* **Static method**. `EntityConvert.ConvertToList<Model>(DataTableObject);`  Pass the model's type to **Generic Type Parameter** and DataTable object to **Method Parameter**. Then it will return a collection with type of `IList<Model>`.
+* **Static method**. `EntityConvert.ConvertToList<Model>(DataTableObject);`  Pass the model's type to **Generic Type Parameter** and DataTable object to **Method Parameter**. It will return a collection with type of `IList<Model>`.
  
-* **Extended method**. `DataTableObject.ToList<Model>();` using the namespaces of **System.Data** (the namespaces same as DataTable) in your code file, then you can use this way.  Then it will return a collection with type of `IList<Model>`.
+* **Extended method**. `DataTableObject.ToList<Model>();` Using the namespaces of **System.Data** (the namespaces same as DataTable) in your code file, then you can use this way.  It will return a collection with type of `IList<Model>`.
 
 
 
-### Mapping contrl
+### Mapping control
 Control the behaviors of the mapping process. 
 
 #### Matched name control 
 By default, library will Compare **colnum name of DataTable Object** to **property name of Model Instance**. If both match, then will set the value. 
 
-However, in some scenes, maybe you hope to use another name to be matched, then you can use the **MicroDBHelpers.ExpansionPack.ColumnAttribute** associated to the property, for example:  
+However, in some scenes, maybe you hope to use another name to be matched, then you can use the **MicroDBHelpers.ExpansionPack.ColumnAttribute** associated to the target property, for example:  
 ```
 class Model
 {
@@ -51,8 +51,8 @@ class Model
 
 #### Case sensitive control
 By default, it is **case sensitive**. If you hope the library ignore case when compare names, there are two alternatives: 
-* use the **MicroDBHelpers.ExpansionPack.ColumnAttribute** associated to each expected propertys, and set the **CaseSensitiveToMatchedName** to **false**; 
-* call `MicroDBHelpers.ExpansionPack.EntityConversionDefaultSettings.CaseSensitiveToColumnName = false;` , this will effect all propertys which is not associated by ColumnAttribute; 
+* use the **MicroDBHelpers.ExpansionPack.ColumnAttribute** associated to each expected propertys, and set the **CaseSensitiveToMatchedName** attribute to **false** ( by default it is true ); 
+* call `MicroDBHelpers.ExpansionPack.EntityConversionDefaultSettings.CaseSensitiveToColumnName = false;` ( by default it is true ) , this will effect all propertys which is not associated by ColumnAttribute; 
 
 Please note again, if you set the `EntityConversionDefaultSettings.CaseSensitiveToColumnName` and use `ColumnAttribute` **both**, then the finall rule of Case sensitive to **that one property** would in `ColumnAttribute` prevail. 
 
@@ -67,8 +67,6 @@ If you needn't to got the code and bulid by yourself for the moment, I also offe
 
 
 ## NuGet 
-!!This section will be supplemented in the near future.!!  
-
 `Install-Package MicroDBHelper-ExpansionPack-EntityConversion`  [link](https://www.nuget.org/packages/MicroDBHelper-ExpansionPack-EntityConversion/)
 
 <br><br><br>
