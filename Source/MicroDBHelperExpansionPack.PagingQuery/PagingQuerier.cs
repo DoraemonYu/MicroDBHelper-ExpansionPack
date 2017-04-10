@@ -306,9 +306,9 @@ namespace MicroDBHelpers.ExpansionPack
                                         .Trim();
 
             //Check Data legitimacy agian
-            if (selectSql.IndexOf("SELECT ",  StringComparison.OrdinalIgnoreCase) < 0)
+            if (SELECTSQL.IndexOf("SELECT ", StringComparison.OrdinalIgnoreCase) < 0)
                 throw new ArgumentException("[selectSql] must include the 'SELECT' keyword.", "selectSql");
-            if (selectSql.IndexOf("FROM ", StringComparison.OrdinalIgnoreCase) < 0)
+            if (SELECTSQL.IndexOf("FROM ", StringComparison.OrdinalIgnoreCase) < 0)
                 throw new ArgumentException("[selectSql] must include the 'SELECT' keyword.", "selectSql");
 
 
@@ -379,11 +379,11 @@ namespace MicroDBHelpers.ExpansionPack
                 }
 
                 //----processing fixed sql----
-                selectSql = fixedSql + "\r\n" + SELECTSQL;
+                var finalSql = fixedSql + "\r\n" + SELECTSQL;
                 //----------------------------
 
                 //exec sql expreession
-                DataTable querydt = await executeAction(SELECTSQL, paras.ToArray(), commandType);
+                DataTable querydt = await executeAction(finalSql, paras.ToArray(), commandType);
 
                 //drop the [rownumber] column, which to only for paging
                 if (querydt != null)
