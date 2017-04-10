@@ -15,7 +15,7 @@ However, some developers hope I could provide some related features for MicroDBH
 ## Optional Expansion List
 Click the link of item below to see its document: 
 
-* [EntityConversion](/MicroDBHelper-ExpansionPack/EntityConversion) It is focus on convert DataTable object to target entity model;
+* [EntityConversion](/MicroDBHelper-ExpansionPack/EntityConversion) It is focus on convert DataTable object to entity models with specified type;
 
 * [PagingQuery](/MicroDBHelper-ExpansionPack/PagingQuery) It is focus on paging query;
 
