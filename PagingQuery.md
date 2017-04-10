@@ -3,7 +3,7 @@
  
 This expansion pack is focus on paging query.  
 
-*The root section of documents of **all optional expansion pack**, please visit [here](/MicroDBHelper-ExpansionPack/).*
+*The root section of documents of **all optional expansion packs**, please visit [here](/MicroDBHelper-ExpansionPack/).*
 
 
 ## Environmental Requirement
@@ -51,12 +51,12 @@ There are some key parameters in these query methods:
  
 * **selectSql**. It is the core part of your SELECT expression. The library requires it to contain **SELECT** and **FROM*** keywords, **ORDER BY** is Optional.
 
-More about his **fixedSql** and  **selectSql** : 
+More about **fixedSql** and  **selectSql** : 
 
 ![snapshot](images/PagingQuery/part_sqls.PNG)
 
 #### Directly paging entities In Memory
-This is *Just a helper function* for developers who hope to "Paging Datas in Memory" and use the "PagingResult Model". 
+This is *Just a helper function* for developers who hope to "Paging Datas in Memory" and use the "PagingResult Model",it is in **MicroDBHelpers.ExpansionPack.PagingQuerier** static class. 
 
 ```
 //Method definition：
@@ -74,8 +74,6 @@ If you needn't to got the code and bulid by yourself for the moment, I also offe
 
 
 ## NuGet 
-!!This section will be supplemented in the near future.!!  
-
 `Install-Package MicroDBHelper-ExpansionPack-PagingQuery`  [link](https://www.nuget.org/packages/MicroDBHelper-ExpansionPack-PagingQuery/)
 
 <br><br><br>
