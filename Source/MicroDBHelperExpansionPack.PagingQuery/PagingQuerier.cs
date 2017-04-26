@@ -302,7 +302,7 @@ namespace MicroDBHelpers.ExpansionPack
             //pre-deal some chars which may effect the logic
             string SELECTSQL = selectSql.Replace("\t"," ")
                                         .Replace("\r\n", "\n")
-                                        .Replace("\n", "\n ")
+                                        .Replace("\n", " \n")
                                         .Trim();
 
             //Check Data legitimacy agian
