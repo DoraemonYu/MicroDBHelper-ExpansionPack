@@ -62,7 +62,15 @@ By default, it is **case sensitive**. If you hope the library ignore case when c
 * use the **MicroDBHelpers.ExpansionPack.ColumnAttribute** associated to each expected propertys, and set the **CaseSensitiveToMatchedName** attribute to **false** ( by default it is true ); 
 * call `MicroDBHelpers.ExpansionPack.EntityConversionDefaultSettings.CaseSensitiveToColumnName = false;` ( by default it is true ) , this will effect all propertys which is not associated by ColumnAttribute; 
 
-Please note again, if you set the `EntityConversionDefaultSettings.CaseSensitiveToColumnName` and use `ColumnAttribute` **both**, then the finall rule of Case sensitive to **that one property** would in `ColumnAttribute` prevail. 
+Please note again, if you set the `EntityConversionDefaultSettings.CaseSensitiveToColumnName` and use `ColumnAttribute` **both**, then the finall rule of Case sensitive to **that one property** would in `ColumnAttribute` prevail.  
+
+
+
+#### Ignore specified column
+Sometimes,you may hope to ignore some columns, either convert to entity list, or convert to datatable. 
+
+To do this, just need to use the MicroDBHelpers.ExpansionPack.IgnoreAttribute associated to the expected propertys.
+
 
 
 
