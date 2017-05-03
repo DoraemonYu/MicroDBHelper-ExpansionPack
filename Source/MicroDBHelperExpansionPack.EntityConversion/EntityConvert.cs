@@ -12,6 +12,7 @@ namespace MicroDBHelpers.ExpansionPack
     /// </summary>
     public static class EntityConvert
     {
+
         /// <summary>
         /// Convert the "DataTable" object to the "Entity List" with target Type 
         /// </summary>
@@ -23,6 +24,20 @@ namespace MicroDBHelpers.ExpansionPack
         {
             return dt.ToList<T>();
         }
+        
+
+        /// <summary>
+        /// Convert the "Entity List" to the "DataTable" object
+        /// </summary>
+        /// <typeparam name="T">target type</typeparam>
+        /// <param name="list">Entity List</param>
+        /// <returns>a DataTable Object</returns>
+        public static DataTable ConvertToDatatable<T>(this IEnumerable<T> list)
+                     where T : class
+        {
+            return list.ToDatatable();
+        }
+
     }
 
 }

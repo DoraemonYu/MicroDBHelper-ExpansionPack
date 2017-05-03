@@ -43,6 +43,8 @@
   <ItemGroup>
     <Compile Include="ADOExtensions.cs" />
     <Compile Include="Attributes\ColumnAttribute.cs" />
+    <Compile Include="Attributes\IgnoreAttribute.cs" />
+    <Compile Include="IEnumerableExtensions.cs" />
     <Compile Include="EntityConversionDefaultSettings.cs" />
     <Compile Include="EntityConvert.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

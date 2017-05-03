@@ -38,6 +38,24 @@
              Is it Case Sensitive to MatchedName
             </summary>
         </member>
+        <member name="T:MicroDBHelpers.ExpansionPack.IgnoreAttribute">
+            <summary>
+            Ignore control for "Column" for "Property of Entity Class"
+            </summary>
+        </member>
+        <member name="T:System.Data.IEnumerableExtensions">
+            <summary>
+            Extensions for IEnumerable collection
+            </summary>
+        </member>
+        <member name="M:System.Data.IEnumerableExtensions.ToDatatable``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Convert the "Entity List" to the "DataTable" object
+            </summary>
+            <typeparam name="T">target type</typeparam>
+            <param name="list">Entity List</param>
+            <returns>a DataTable Object</returns>
+        </member>
         <member name="T:MicroDBHelpers.ExpansionPack.EntityConversionDefaultSettings">
             <summary>
             Default Settings of "Entity Conversion" Features
@@ -60,6 +78,14 @@
             <typeparam name="T">target type</typeparam>
             <param name="dt">DateTable object</param>
             <returns>a list of result</returns>
+        </member>
+        <member name="M:MicroDBHelpers.ExpansionPack.EntityConvert.ConvertToDatatable``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Convert the "Entity List" to the "DataTable" object
+            </summary>
+            <typeparam name="T">target type</typeparam>
+            <param name="list">Entity List</param>
+            <returns>a DataTable Object</returns>
         </member>
     </members>
 </doc>

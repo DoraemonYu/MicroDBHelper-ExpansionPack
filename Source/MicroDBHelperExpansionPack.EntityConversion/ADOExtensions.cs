@@ -32,8 +32,11 @@ namespace System.Data
             var plist       = new List<PropertyInfo>(typeof(T).GetProperties());
 
             //get dic<Propertie,ColumnAttribute>
-            var pdic = plist.Select(o => new { Properties = o, ColumnAttribute = Attribute.GetCustomAttribute(o,typeof(ColumnAttribute)) as ColumnAttribute })
-                            .ToDictionary(o => o.Properties );
+            var pdic_col    = plist.Select(o => new { Properties = o,   ColumnAttribute = Attribute.GetCustomAttribute(o,typeof(ColumnAttribute)) as ColumnAttribute })
+                                   .ToDictionary(o => o.Properties );
+            //get dic<Propertie,IgnoreAttribute>
+            var pdic_Ign = plist.Select(o => new { Properties = o,      IgnoreAttribute = Attribute.GetCustomAttribute(o, typeof(IgnoreAttribute)) as IgnoreAttribute })
+                                .ToDictionary(o => o.Properties);
             
 
             //loop to convert Properties and Values
@@ -58,7 +61,7 @@ namespace System.Data
                         //Richer logic :
                         info = plist.FirstOrDefault(o =>
                         {
-                            var colAtt = pdic[o].ColumnAttribute;
+                            var colAtt = pdic_col[o].ColumnAttribute;
                             if (colAtt != null)
                             {
                                 /* own ColumnAttribute, then use the rule from ColumnAttribute  */
@@ -76,9 +79,17 @@ namespace System.Data
                         });
 
                         #endregion
-                                                
+
                         if (info != null)
                         {
+                            #region Ignore this column Or Not
+
+                            if ( pdic_Ign[info].IgnoreAttribute != null )
+                                continue;
+
+                            #endregion
+
+                            //Set Value
                             if (!Convert.IsDBNull(item[i]))
                             {
                                 info.SetValue(current, Convert.ChangeType(item[i],info.PropertyType) , null);
