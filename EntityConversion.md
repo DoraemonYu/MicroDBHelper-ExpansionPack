@@ -31,7 +31,7 @@ There are two alternatives:
 * **Static method**.  
 
   * `EntityConvert.ConvertToList<Model>(DataTableObject);`  Pass the model's type to **Generic Type Parameter** and DataTable object to **Method Parameter**. It will return a collection with type of `IList<Model>`.
-  * `EntityConvert.ConvertToDatatable(EntityList)` Pass `IEnumerable<Model>` *( this also Include `IList<Model>` and `Model[]` )* to **Method Parameter**. It will return a datatable object.
+  * `EntityConvert.ConvertToDatatable(EntityList);` Pass the `IEnumerable<Model>`*(this also Include `IList<Model>` and `Model[]`)* to **Method Parameter**. It will return a datatable object.
  
 * **Extended method**.   
 
