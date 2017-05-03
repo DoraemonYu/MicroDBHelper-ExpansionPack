@@ -1,6 +1,6 @@
 ![icon](https://github.com/DoraemonYu/MicroDBHelper-ExpansionPack/blob/gh-pages/icons/EntityConversion.png?raw=true)  
 # ExpansionPack :: EntityConversion  
-This expansion pack is focus on convert DataTable object to entity models with specified type.  
+This expansion pack is focus on convert datas between datatable object and entity model list. 
 
 *The root section of documents of **all optional expansion packs**, please visit [here](/MicroDBHelper-ExpansionPack/).*
 
