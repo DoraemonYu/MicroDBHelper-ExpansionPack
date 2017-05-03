@@ -28,9 +28,17 @@ class Model
 
 ### Call conversion method 
 There are two alternatives: 
-* **Static method**. `EntityConvert.ConvertToList<Model>(DataTableObject);`  Pass the model's type to **Generic Type Parameter** and DataTable object to **Method Parameter**. It will return a collection with type of `IList<Model>`.
+* **Static method**.  
+
+  * `EntityConvert.ConvertToList<Model>(DataTableObject);`  Pass the model's type to **Generic Type Parameter** and DataTable object to **Method Parameter**. It will return a collection with type of `IList<Model>`.
+  * `EntityConvert.ConvertToDatatable(EntityList)` Pass `IEnumerable<Model>` *( this also Include `IList<Model>` and `Model[]` )* to **Method Parameter**. It will return a datatable object.
  
-* **Extended method**. `DataTableObject.ToList<Model>();` Using the namespaces of **System.Data** (the namespaces same as DataTable) in your code file, then you can use this way.  It will return a collection with type of `IList<Model>`.
+* **Extended method**.   
+
+  * `DataTableObject.ToList<Model>();`  Using the namespaces of **System.Data** (the namespaces same as DataTable) in your code file, then you can use this way.  It will return a collection with type of `IList<Model>`.
+  * `IEnumerable<Model>.ToDatatable();` Using the namespaces of **System.Data** (the namespaces same as DataTable) in your code file, then you can use this way.  It will return a datatable object.
+  
+  
 
 
 
