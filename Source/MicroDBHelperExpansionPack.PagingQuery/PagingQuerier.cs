@@ -333,14 +333,24 @@ namespace MicroDBHelpers.ExpansionPack
                 string orderString  = "";
                 int endPos          = SELECTSQL.LastIndexOf("ORDER BY", StringComparison.OrdinalIgnoreCase);
 
+                //orderString
                 if (endPos > 0)
-                {
-                    sqlCount        = "SELECT COUNT(1) " + SELECTSQL.Substring(nextFromPos, endPos - nextFromPos - 1);
-                    orderString     = SELECTSQL.Substring(endPos);
+                    orderString = SELECTSQL.Substring(endPos);
+
+                //sqlCount
+                if (!hasDistinct(SELECTSQL))
+                {//## no DISTINCT
+                    if (endPos > 0)
+                        sqlCount = "SELECT COUNT(1) " + SELECTSQL.Substring(nextFromPos, endPos - nextFromPos - 1);                        
+                    else
+                        sqlCount = "SELECT COUNT(1) " + SELECTSQL.Substring(nextFromPos);
                 }
                 else
-                {
-                    sqlCount        = "SELECT COUNT(1) " + SELECTSQL.Substring(nextFromPos);
+                {//## has DISTINCT
+                    if (endPos > 0)
+                        sqlCount = "SELECT COUNT(1) FROM ( " + SELECTSQL.Substring(0, endPos) + ") as ___temp___sqlCount___";
+                    else
+                        sqlCount = "SELECT COUNT(1) FROM ( " + SELECTSQL + ") as ___temp___sqlCount___";
                 }
 
                 //----processing fixed sql----
@@ -442,18 +452,15 @@ namespace MicroDBHelpers.ExpansionPack
                 sql = sql.Substring(0, orderByIndex);
             }
 
-            if (hasDistinct(sql))
+
+            //append ested select to Support the "Distinct"
             {
                 pagingSelect.Append(" row_.* FROM ( ")              // add another (inner) nested select
                         .Append(sql.Substring(startOfSelect))       // add the main query
                         .Append(" ) as row_");                      // close off the inner nested select
             }
-            else
-            {
-                pagingSelect.Append(sql.Substring(startOfSelect + 6)); // add the main query
-            }
 
-            pagingSelect.Append(" ) as temp_ where ___rownumber___ ");
+            pagingSelect.Append(" ) as ___temp___limitSql___ where ___rownumber___ ");
 
             //add the restriction to the outer select
             if (hasOffset)
@@ -478,7 +485,7 @@ namespace MicroDBHelpers.ExpansionPack
             StringBuilder rownumber = new StringBuilder(50).Append("ROW_NUMBER() OVER( ");
 
             int orderByIndex = sql.LastIndexOf("ORDER BY", StringComparison.OrdinalIgnoreCase);
-            if (orderByIndex > 0 && !hasDistinct(sql))
+            if (orderByIndex > 0)
             {
                 rownumber.Append(sql.Substring(orderByIndex));
             }
