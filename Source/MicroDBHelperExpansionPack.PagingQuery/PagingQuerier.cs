@@ -451,12 +451,7 @@ namespace MicroDBHelpers.ExpansionPack
             pagingSelect.Append("SELECT * FROM ( SELECT ");                             // nest the main query in an outer select
             pagingSelect.Append(GetRowNumber(sql, orderBodyString, SELECTWithoutOrder));     // add the rownnumber bit into the outer query select list
             
-
-            //if (!hasDistinct(sql))
-            //{
-            //    pagingSelect.Append(SELECTWithoutOrder.Substring(startOfSelect + 6));   // add the main query
-            //}
-            //else
+            //make to support "DISTINCT"
             {
                 pagingSelect.Append(" row_.* FROM ( ")                                  // add another (inner) nested select
                         .Append(SELECTWithoutOrder.Substring(startOfSelect))            // add the main query
@@ -493,11 +488,11 @@ namespace MicroDBHelpers.ExpansionPack
             bool hasOrderBy = !String.IsNullOrWhiteSpace(orderBodyString);
 
             if (hasOrderBy)
-            {//##has ORDER-BY and has DISTINCT
+            {
                 Helper_GetRowNumberHelper4DISTINCT(rownumber, orderBodyString, sqlWithoutOrder);
             }
             else
-            {//##neither
+            {
                 rownumber.Append(" ORDER BY (SELECT NULL) ");
             }
 
