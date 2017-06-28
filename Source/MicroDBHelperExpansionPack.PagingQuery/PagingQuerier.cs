@@ -335,14 +335,13 @@ namespace MicroDBHelpers.ExpansionPack
 
                 if (endPos > 0)
                 {
-                    sqlCount        = "SELECT COUNT(*) " + SELECTSQL.Substring(nextFormPos, endPos - nextFormPos - 1);
+                    sqlCount        = "SELECT COUNT(1) " + SELECTSQL.Substring(nextFormPos, endPos - nextFormPos - 1);
                     orderString     = SELECTSQL.Substring(endPos);
                 }
                 else
                 {
-                    sqlCount        = "SELECT COUNT(*) " + SELECTSQL.Substring(nextFormPos);
+                    sqlCount        = "SELECT COUNT(1) " + SELECTSQL.Substring(nextFormPos);
                 }
-
 
                 //----processing fixed sql----
                 sqlCount = fixedSql + "\r\n" + sqlCount;
@@ -395,6 +394,16 @@ namespace MicroDBHelpers.ExpansionPack
                     querydt     = querydt,
                     totalCount  = totalCount
                 };
+            }
+            catch(SqlException ex)
+            {
+                var err = new InvalidOperationException("A sql exception was thrown when paging query: " 
+                                                       + ex.Message 
+                                                       + "\r\nMore informations about this exception, see the Exception.[Data] property.", ex);
+                err.Data.Add("current_sql_expression", fixedSql + "\n\n" + SELECTSQL);
+                err.Data.Add("original_sql_exception", ex);
+
+                throw err;
             }
             catch (Exception ex)
             {
