@@ -432,6 +432,8 @@ namespace MicroDBHelpers.ExpansionPack
         /// <param name="sql">sql expression</param>
         /// <param name="pageIndex">the index of page</param>
         /// <param name="pageSize">the size of each page</param>
+        /// <param name="orderBodyString">main body of order-by-sql</param>
+        /// <param name="SELECTWithoutOrder">sql without order-by-sql</param>
         private static string GetLimitSql(
             string sql,
             int pageIndex,
@@ -450,11 +452,11 @@ namespace MicroDBHelpers.ExpansionPack
             pagingSelect.Append(GetRowNumber(sql, orderBodyString, SELECTWithoutOrder));     // add the rownnumber bit into the outer query select list
             
 
-            if (!hasDistinct(sql))
-            {
-                pagingSelect.Append(SELECTWithoutOrder.Substring(startOfSelect + 6));   // add the main query
-            }
-            else
+            //if (!hasDistinct(sql))
+            //{
+            //    pagingSelect.Append(SELECTWithoutOrder.Substring(startOfSelect + 6));   // add the main query
+            //}
+            //else
             {
                 pagingSelect.Append(" row_.* FROM ( ")                                  // add another (inner) nested select
                         .Append(SELECTWithoutOrder.Substring(startOfSelect))            // add the main query
@@ -476,20 +478,21 @@ namespace MicroDBHelpers.ExpansionPack
             return pagingSelect.ToString();
         }
 
+
+
         /// <summary>
         /// Get number of row
         /// </summary>
         /// <param name="sql">sql expression</param>
+        /// <param name="orderBodyString">main body of order-by-sql</param>
+        /// <param name="sqlWithoutOrder">sql without order-by-sql</param>
         private static string GetRowNumber(string sql, string orderBodyString, string sqlWithoutOrder)
         {
             StringBuilder rownumber = new StringBuilder(50).Append("ROW_NUMBER() OVER( ");
 
             bool hasOrderBy = !String.IsNullOrWhiteSpace(orderBodyString);
-            if (hasOrderBy && !hasDistinct(sql))
-            {//##has ORDER-BY and no DISTINCT
-                rownumber.Append("ORDER BY " + orderBodyString);
-            }
-            else if (hasOrderBy)
+
+            if (hasOrderBy)
             {//##has ORDER-BY and has DISTINCT
                 Helper_GetRowNumberHelper4DISTINCT(rownumber, orderBodyString, sqlWithoutOrder);
             }
