@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MicroDBHelpers;
+using System.Text.RegularExpressions;
 
 namespace MicroDBHelpers.ExpansionPack
 {
@@ -330,12 +331,11 @@ namespace MicroDBHelpers.ExpansionPack
                     nextSelectPos   = SELECTSQL.IndexOf("SELECT ", beginPos, StringComparison.OrdinalIgnoreCase);
                 }
 
-                string orderString  = "";
                 int endPos          = SELECTSQL.LastIndexOf("ORDER BY", StringComparison.OrdinalIgnoreCase);
 
-                //orderString
-                if (endPos > 0)
-                    orderString = SELECTSQL.Substring(endPos);
+                //orderString & SELECTWithoutOrder
+                string orderBodyString      = endPos < 0 ? String.Empty : SELECTSQL.Substring(endPos + 8);
+                string SELECTWithoutOrder   = endPos < 0 ? String.Empty : SELECTSQL.Substring(0, endPos );
 
                 //sqlCount
                 if (!hasDistinct(SELECTSQL))
@@ -370,7 +370,7 @@ namespace MicroDBHelpers.ExpansionPack
                 bool hasOffset = (pageIndex != 1);
 
                 //create limit sql expression
-                SELECTSQL = GetLimitSql(SELECTSQL, pageIndex, pageSize);
+                SELECTSQL = GetLimitSql(SELECTSQL, pageIndex, pageSize, orderBodyString, SELECTWithoutOrder);
 
                 //add pading parameter
                 List<SqlParameter> paras = new List<SqlParameter>();
@@ -435,29 +435,30 @@ namespace MicroDBHelpers.ExpansionPack
         private static string GetLimitSql(
             string sql,
             int pageIndex,
-            int pageSize)
+            int pageSize,
+            string orderBodyString, string SELECTWithoutOrder
+            )
         {
 
-            bool hasOffset      = (pageIndex != 1);
-            int startOfSelect   = sql.IndexOf("SELECT ", StringComparison.OrdinalIgnoreCase);
-            int orderByIndex    = sql.LastIndexOf("ORDER BY ", StringComparison.OrdinalIgnoreCase);
+            bool hasOffset          = (pageIndex != 1);
+            int startOfSelect       = sql.IndexOf("SELECT ", StringComparison.OrdinalIgnoreCase);
 
-            var pagingSelect    = new StringBuilder(sql.Length + 100);
 
-            pagingSelect.Append("SELECT * FROM ( SELECT ");         // nest the main query in an outer select
-            pagingSelect.Append(GetRowNumber(sql));                 // add the rownnumber bit into the outer query select list
+            var pagingSelect        = new StringBuilder(sql.Length + 100);
 
-            if (orderByIndex > 0)
+            pagingSelect.Append("SELECT * FROM ( SELECT ");                             // nest the main query in an outer select
+            pagingSelect.Append(GetRowNumber(sql, orderBodyString, SELECTWithoutOrder));     // add the rownnumber bit into the outer query select list
+            
+
+            if (!hasDistinct(sql))
             {
-                sql = sql.Substring(0, orderByIndex);
+                pagingSelect.Append(SELECTWithoutOrder.Substring(startOfSelect + 6));   // add the main query
             }
-
-
-            //append ested select to Support the "Distinct"
+            else
             {
-                pagingSelect.Append(" row_.* FROM ( ")              // add another (inner) nested select
-                        .Append(sql.Substring(startOfSelect))       // add the main query
-                        .Append(" ) as row_");                      // close off the inner nested select
+                pagingSelect.Append(" row_.* FROM ( ")                                  // add another (inner) nested select
+                        .Append(SELECTWithoutOrder.Substring(startOfSelect))            // add the main query
+                        .Append(" ) as row_");                                          // close off the inner nested select
             }
 
             pagingSelect.Append(" ) as ___temp___limitSql___ where ___rownumber___ ");
@@ -479,18 +480,21 @@ namespace MicroDBHelpers.ExpansionPack
         /// Get number of row
         /// </summary>
         /// <param name="sql">sql expression</param>
-        private static string GetRowNumber(string sql)
+        private static string GetRowNumber(string sql, string orderBodyString, string sqlWithoutOrder)
         {
-
             StringBuilder rownumber = new StringBuilder(50).Append("ROW_NUMBER() OVER( ");
 
-            int orderByIndex = sql.LastIndexOf("ORDER BY", StringComparison.OrdinalIgnoreCase);
-            if (orderByIndex > 0)
-            {
-                rownumber.Append(sql.Substring(orderByIndex));
+            bool hasOrderBy = !String.IsNullOrWhiteSpace(orderBodyString);
+            if (hasOrderBy && !hasDistinct(sql))
+            {//##has ORDER-BY and no DISTINCT
+                rownumber.Append("ORDER BY " + orderBodyString);
+            }
+            else if (hasOrderBy)
+            {//##has ORDER-BY and has DISTINCT
+                Helper_GetRowNumberHelper4DISTINCT(rownumber, orderBodyString, sqlWithoutOrder);
             }
             else
-            {
+            {//##neither
                 rownumber.Append(" ORDER BY (SELECT NULL) ");
             }
 
@@ -498,6 +502,67 @@ namespace MicroDBHelpers.ExpansionPack
 
             return rownumber.ToString();
         }
+
+        #region especial logic for DISTINCT
+
+        static Regex regex_fieldNameMapping = new Regex(@"(?<field>[^\s,]+)\s+as\s+(?<alias>[^\s,]+)", RegexOptions.IgnoreCase);
+        static Regex regex_fieldOrderby     = new Regex(@"[\s,](?<field>[^\s,]+)", RegexOptions.IgnoreCase);
+
+        /// <summary>
+        /// especial logic for DISTINCT (change the SELECT FIELD name if has 'AS' )
+        /// </summary>
+        /// <param name="rownumber"></param>
+        /// <param name="orderString"></param>
+        /// <param name="sqlWithoutOrder"></param>
+        private static void Helper_GetRowNumberHelper4DISTINCT(StringBuilder rownumber, string orderString, string sqlWithoutOrder)
+        {
+            //Create mapping
+            Dictionary<string, string> dic_fieldNameMapping = new Dictionary<string, string>();
+            {
+                var ms = regex_fieldNameMapping.Matches(sqlWithoutOrder.Substring(6));
+                if (ms.Count > 0)
+                {
+                    for (int i = 0; i < ms.Count; i++)
+                    {
+                        var field = Helper_GetPureFieldName(ms[i].Groups["field"].Value);
+                        var alias = Helper_GetPureFieldName(ms[i].Groups["alias"].Value);
+                        dic_fieldNameMapping[field] = alias;
+                    }
+                }
+            }
+
+            //Check and mapping
+            StringBuilder replaced = new StringBuilder(orderString);
+            {
+                var ms = regex_fieldOrderby.Matches(orderString);
+                if (ms.Count > 0)
+                {
+                    for (int i = 0; i < ms.Count; i++)
+                    {
+                        var raw     = ms[i].Groups["field"].Value;
+                        var field   = Helper_GetPureFieldName(raw);
+                        
+                        if (dic_fieldNameMapping.ContainsKey(field))
+                            replaced.Replace(raw, "[" + dic_fieldNameMapping[field] + "]");
+                    }
+                }
+            }
+
+            //finally append it 
+            rownumber.Append("ORDER BY " + replaced.ToString());
+        }
+
+        /// <summary>
+        /// Get Pure Field Name
+        /// </summary>
+        private static string Helper_GetPureFieldName(string text)
+        {
+            return text.Replace("\'", String.Empty).Replace("[", String.Empty).Replace("]", String.Empty);
+        }
+
+        #endregion
+
+
 
         /// <summary>
         /// Check is it include "distinct"

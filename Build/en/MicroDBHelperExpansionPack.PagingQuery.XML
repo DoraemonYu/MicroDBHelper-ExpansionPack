@@ -127,7 +127,7 @@
             Detail to PagingAsync
             </summary>
         </member>
-        <member name="M:MicroDBHelpers.ExpansionPack.PagingQuerier.GetLimitSql(System.String,System.Int32,System.Int32)">
+        <member name="M:MicroDBHelpers.ExpansionPack.PagingQuerier.GetLimitSql(System.String,System.Int32,System.Int32,System.String,System.String)">
             <summary>
             Create limit sql
             </summary>
@@ -135,11 +135,24 @@
             <param name="pageIndex">the index of page</param>
             <param name="pageSize">the size of each page</param>
         </member>
-        <member name="M:MicroDBHelpers.ExpansionPack.PagingQuerier.GetRowNumber(System.String)">
+        <member name="M:MicroDBHelpers.ExpansionPack.PagingQuerier.GetRowNumber(System.String,System.String,System.String)">
             <summary>
             Get number of row
             </summary>
             <param name="sql">sql expression</param>
+        </member>
+        <member name="M:MicroDBHelpers.ExpansionPack.PagingQuerier.Helper_GetRowNumberHelper4DISTINCT(System.Text.StringBuilder,System.String,System.String)">
+            <summary>
+            especial logic for DISTINCT (change the SELECT FIELD name if has 'AS' )
+            </summary>
+            <param name="rownumber"></param>
+            <param name="orderString"></param>
+            <param name="sqlWithoutOrder"></param>
+        </member>
+        <member name="M:MicroDBHelpers.ExpansionPack.PagingQuerier.Helper_GetPureFieldName(System.String)">
+            <summary>
+            Get Pure Field Name
+            </summary>
         </member>
         <member name="M:MicroDBHelpers.ExpansionPack.PagingQuerier.hasDistinct(System.String)">
             <summary>
