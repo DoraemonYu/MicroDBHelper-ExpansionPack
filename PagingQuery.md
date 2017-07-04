@@ -63,7 +63,15 @@ This is *Just a helper function* for developers who hope to "Paging Datas in Mem
 PagingResult<T> PagingByList<T>(IEnumerable<T> datas, int pageIndex, int pageSize);
 ```
 
+ 
+  
+## Notes & Recommend
+The Core logic of Paging Query is *to change the T-SQL, SELECT the total count of results, and SELECT the datas PART of them thanks to ROW_NUMBER function*. So in fact, the origin T-SQL you pass into the method cannot be very complex, it's a hard work to deal all of the complex situations. 
 
+:) However, there are some recommends that can make it work fine: 
+* Avoid using subqueries in the **selectSql**. Convert it by using JOIN logic.  
+* Put your complex situation to the **fixedSql** and use CTE. This will improve the readability, performance and this part will not participat in *change T-SQL for Paging* so it will be much strong. 
+  
 
 
 
