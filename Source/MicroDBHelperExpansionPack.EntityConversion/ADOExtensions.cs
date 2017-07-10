@@ -48,14 +48,14 @@ namespace System.Data
 
                     for (int i = 0; i < dt.Columns.Count; i++)
                     {
-                        PropertyInfo info;
+                        PropertyInfo info = null;
 
                         #region Get Target Property
 
                         /* You can overwrite this folded code, in order to simply combine your logic.
-                         * For example, just use:
+                            * For example, just use:
                                 info = plist.Find(p => p.Name == dt.Columns[i].ColumnName);
-                         */
+                            */
 
 
                         //Richer logic :
@@ -79,21 +79,42 @@ namespace System.Data
                         });
 
                         #endregion
-
-                        if (info != null)
+                        
+                        try
                         {
-                            #region Ignore this column Or Not
-
-                            if ( pdic_Ign[info].IgnoreAttribute != null )
-                                continue;
-
-                            #endregion
-
-                            //Set Value
-                            if (!Convert.IsDBNull(item[i]))
+                            if (info != null)
                             {
-                                info.SetValue(current, Convert.ChangeType(item[i],info.PropertyType) , null);
+                                #region Ignore this column Or Not
+
+                                if ( pdic_Ign[info].IgnoreAttribute != null )
+                                    continue;
+
+                                #endregion
+
+                                object rawValue = item[i];
+
+                                //Set Value
+                                if (rawValue != null && !Convert.IsDBNull(rawValue))
+                                {
+                                    //Support Nullable Type
+                                    Type safeType = Nullable.GetUnderlyingType(info.PropertyType) ?? info.PropertyType;
+
+                                    //Support Enum:
+                                    if (safeType.IsEnum)
+                                    {
+                                        info.SetValue(current, Enum.Parse(safeType, rawValue.ToString()), null);
+                                        continue;
+                                    }
+
+                                    //Normal:
+                                    info.SetValue(current, Convert.ChangeType(rawValue, safeType), null);
+                                }
                             }
+                        }
+                        catch (Exception ex)
+                        {
+                            System.Diagnostics.Trace.WriteLine(String.Format("## [MicroDBHelperExpansionPack.EntityConversion] System.Data.ADOExtensions::ToList<T> found an exception when convert [{0}] property, message is {1} ", info.Name, ex.Message));
+                            continue;
                         }
                     }
 
