@@ -145,7 +145,7 @@
             <param name="orderBodyString">main body of order-by-sql</param>
             <param name="sqlWithoutOrder">sql without order-by-sql</param>
         </member>
-        <member name="M:MicroDBHelpers.ExpansionPack.PagingQuerier.Helper_GetRowNumberHelper4DISTINCT(System.Text.StringBuilder,System.String,System.String)">
+        <member name="M:MicroDBHelpers.ExpansionPack.PagingQuerier.Helper_GetRowNumberHelper(System.Text.StringBuilder,System.String,System.String)">
             <summary>
             especial logic for DISTINCT (change the SELECT FIELD name if has 'AS' )
             </summary>

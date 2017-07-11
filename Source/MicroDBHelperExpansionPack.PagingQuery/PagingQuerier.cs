@@ -489,7 +489,7 @@ namespace MicroDBHelpers.ExpansionPack
 
             if (hasOrderBy)
             {
-                Helper_GetRowNumberHelper4DISTINCT(rownumber, orderBodyString, sqlWithoutOrder);
+                Helper_GetRowNumberHelper(rownumber, orderBodyString, sqlWithoutOrder);
             }
             else
             {
@@ -504,7 +504,8 @@ namespace MicroDBHelpers.ExpansionPack
         #region especial logic for DISTINCT
 
         static Regex regex_fieldNameMapping = new Regex(@"(?<field>[^\s,]+)\s+as\s+(?<alias>[^\s,]+)", RegexOptions.IgnoreCase);
-        static Regex regex_fieldOrderby     = new Regex(@"[\s,](?<field>[^\s,]+)", RegexOptions.IgnoreCase);
+        static Regex regex_fieldOrderby = new Regex(@"[\s,](?<field>[^\s,]+)(\s+(?<direction>(asc)|(desc)))*", RegexOptions.IgnoreCase);
+        static Regex regex_minimumFieldName = new Regex(@"((\.)*)(?<name>[^\s,\.]+)$", RegexOptions.IgnoreCase);
 
         /// <summary>
         /// especial logic for DISTINCT (change the SELECT FIELD name if has 'AS' )
@@ -512,12 +513,14 @@ namespace MicroDBHelpers.ExpansionPack
         /// <param name="rownumber"></param>
         /// <param name="orderString"></param>
         /// <param name="sqlWithoutOrder"></param>
-        private static void Helper_GetRowNumberHelper4DISTINCT(StringBuilder rownumber, string orderString, string sqlWithoutOrder)
+        private static void Helper_GetRowNumberHelper(StringBuilder rownumber, string orderString, string sqlWithoutOrder)
         {
+            string pureSELECTPart = sqlWithoutOrder.Substring(6, sqlWithoutOrder.IndexOf("FROM ") - 5 ); 
+
             //Create mapping
             Dictionary<string, string> dic_fieldNameMapping = new Dictionary<string, string>();
             {
-                var ms = regex_fieldNameMapping.Matches(sqlWithoutOrder.Substring(6));
+                var ms = regex_fieldNameMapping.Matches(pureSELECTPart);
                 if (ms.Count > 0)
                 {
                     for (int i = 0; i < ms.Count; i++)
@@ -530,24 +533,46 @@ namespace MicroDBHelpers.ExpansionPack
             }
 
             //Check and mapping
-            StringBuilder replaced = new StringBuilder(orderString);
+            StringBuilder newOrderby    = new StringBuilder("ORDER BY ");
             {
                 var ms = regex_fieldOrderby.Matches(orderString);
                 if (ms.Count > 0)
                 {
                     for (int i = 0; i < ms.Count; i++)
                     {
-                        var raw     = ms[i].Groups["field"].Value;
-                        var field   = Helper_GetPureFieldName(raw);
-                        
+                        var direction       = ms[i].Groups["direction"].Value;
+                        var rawField        = ms[i].Groups["field"].Value;
+                        var field           = Helper_GetPureFieldName(rawField);
+
                         if (dic_fieldNameMapping.ContainsKey(field))
-                            replaced.Replace(raw, "[" + dic_fieldNameMapping[field] + "]");
+                        {//Has alias name
+                            newOrderby.Append("[");
+                            newOrderby.Append(dic_fieldNameMapping[field]);
+                            newOrderby.Append("]");
+                        }
+                        else
+                        {//remove multi-part identifier if exist
+                            newOrderby.Append("[");
+                            newOrderby.Append(Helper_GetPureFieldName(regex_minimumFieldName.Match(field).Groups["name"].Value));
+                            newOrderby.Append("]");
+                        }
+
+                        //append direction
+                        if (String.IsNullOrWhiteSpace(direction) == false)
+                        {
+                            newOrderby.Append(" ");
+                            newOrderby.Append(direction);
+                        }
+                        
+                        //append ','
+                        if (i < ms.Count - 1)
+                            newOrderby.Append(",");
                     }
                 }
             }
 
             //finally append it 
-            rownumber.Append("ORDER BY " + replaced.ToString());
+            rownumber.Append(newOrderby);
         }
 
         /// <summary>
