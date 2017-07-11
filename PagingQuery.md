@@ -71,7 +71,10 @@ The Core logic of Paging Query is *to change the T-SQL, SELECT the total count o
 :) However, there are some recommends that can make it work fine: 
 * Avoid using subqueries in the **selectSql**. Convert it by using JOIN logic.  
 * Put your complex situation to the **fixedSql** and use CTE. This will improve the readability, performance and this part will not participat in *change T-SQL for Paging* so it will be much strong. 
-  
+ 
+ 
+It should be noted that, fields that appear ORDER-BY part, must appear SELECT part as well. These scenes is okay:
+ ![snapshot](images/PagingQuery/FIELDS-IN-ORDER-BY.png)
 
 
 
