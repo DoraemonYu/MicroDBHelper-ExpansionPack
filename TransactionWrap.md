@@ -1,7 +1,8 @@
 ![icon](https://github.com/DoraemonYu/MicroDBHelper-ExpansionPack/blob/gh-pages/icons/TransactionWrap.png?raw=true)  
 # ExpansionPack :: TransactionWrap 
  
-This expansion pack is focus on "Assembly Decoupling". Allow assembly which is hierarchical design, conveniently to create Transaction Object, without Reference the *"MicroDBHelper.dll"*. 
+This expansion pack is focus on "Assembly Decoupling". Allow assembly which is hierarchical design, conveniently to create Transaction Object, without Reference the *"MicroDBHelper.dll"*.  
+ 
 It's useful for those **hierarchical design projects**, and there is no value for *non-hierarchical projects*, please confirm your needs.
 
 
