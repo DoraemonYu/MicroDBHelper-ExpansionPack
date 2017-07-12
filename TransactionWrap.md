@@ -40,7 +40,7 @@ Now, we use an wrap from this expansion pack to instead of *MicroDBTransaction* 
 :) **Just feel free** to use *TransactionWrap*.   
 Because of library will automatically identify *TransactionWrap* as *MicroDBTransaction*.   
   
-So firstly, all the usages with properties and methods in *TransactionWrap* is same as them in *MicroDBTransaction* ; Secondly, you could just pass the *TransactionWrap* instance to those methods that is define *MicroDBTransaction* type parameter without any manual conversion.
+So firstly, all the usages with properties and methods in *TransactionWrap* is same as them in *MicroDBTransaction* [link](/MicroDBHelper/#transaction)   ; Secondly, you could just pass the *TransactionWrap* instance to those methods that is define *MicroDBTransaction* type parameter without any manual conversion.
 
 ### Different
 The **tiny** difference in code is that when begin Transaction, use *TransactionWrap.UseTransaction* instead of *MicroDBHelper.UseTransaction*. ( When you modify codes, you can do this with the bulk text replacement tool.  )
