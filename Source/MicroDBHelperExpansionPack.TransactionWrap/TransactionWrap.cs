@@ -190,10 +190,7 @@ namespace MicroDBHelperExpansionPack
         /// <returns></returns>
         public override string ToString()
         {
-            return String.Format("Transaction Object using the ConnectionAliasName:[{0}] and the IsolationLevel:[{1}] ",
-                                 transaction.ConnectionAliasName,
-                                 transaction.IsolationLevel.ToString()
-                                );
+            return transaction.ToString();
         }
 
         #endregion
