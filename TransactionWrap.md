@@ -1,7 +1,7 @@
 ![icon](https://github.com/DoraemonYu/MicroDBHelper-ExpansionPack/blob/gh-pages/icons/TransactionWrap.png?raw=true)  
 # ExpansionPack :: TransactionWrap 
  
-This expansion pack is focus on "Assembly Decoupling". Allow assembly which is hierarchical design, conveniently to create Transaction Object, without Reference the *MicroDBHelper.dll*. 
+This expansion pack is focus on "Assembly Decoupling". Allow assembly which is hierarchical design, conveniently to create Transaction Object, without Reference the *"MicroDBHelper.dll"*. 
 
 
 *The root section of documents of **all optional expansion packs**, please visit [here](/MicroDBHelper-ExpansionPack/).*
@@ -13,7 +13,7 @@ This expansion pack is focus on "Assembly Decoupling". Allow assembly which is h
   
   
 ## Background 
-MicroDBHelper offer friendly interfaces to use DBHelper, and offer Transaction Support as well. **All of them** are packaged in the single "MicroDBHelper.dll" . After reference it, you can use it anywhere.   
+MicroDBHelper offer friendly interfaces to use DBHelper, and offer Transaction Support as well. **All of them** are packaged in the single *"MicroDBHelper.dll"* . After reference it, you can use it anywhere.   
 
 However, when you use it in a hierarchical design project, then you will face some Closure problem.  
   
@@ -29,7 +29,7 @@ Maybe we can solve this problem by some design patterns or development agreement
 
 Therefore, this library offer a solution with assembly-level to solve it. Let us look this:  
 ![snapshot](images/TransactionWrap/REFERENCE_AFTER.png)   
-Now, we use an wrap from this expansion pack to instead of *MicroDBTransaction* from "MicroDBHelper.dll". It just an wrap, no more logics in it and just make the assemblys to be Decoupling.  
+Now, we use an wrap from this expansion pack to instead of *MicroDBTransaction* from *"MicroDBHelper.dll"*. It just an wrap, no more logics in it and just make the assemblys to be Decoupling.  
 
 *Business Layer* and up layers use *TransactionWrap* type ; Public interfaces of *DataAccess Layer* also use *TransactionWrap* type, and use *MicroDBTransaction* inner and finally invoke with *MicroDBHelper*, library will automatically identify *TransactionWrap* as *MicroDBTransaction* .
 
@@ -48,10 +48,10 @@ The little difference in code is that use *TransactionWrap.UseTransaction* inste
  
   
 ## Notes & Recommend
-This expansion pack was an wrap and finally call logics in MicroDBHelper.dll as well.   
-So just one thing to do is, make sure that assemblies of current AppDomain MUST at least one reference the *MicroDBHelper.dll*.   
+This expansion pack was an wrap and finally call logics in *"MicroDBHelper.dll"* as well.   
+So just one thing to do is, make sure that assemblies of current AppDomain MUST at least one reference the *"MicroDBHelper.dll"*.   
 
-Like the example above, *DataAccess Layer*  is part of the AppDomain and reference *MicroDBHelper.dll* , then other layers who use the wrap whitout reference *MicroDBHelper.dll* wolud still work properly.
+Like the example above, *DataAccess Layer*  is part of the AppDomain and reference *"MicroDBHelper.dll"* , then other layers who use the wrap whitout reference *"MicroDBHelper.dll"* wolud still work properly.
 
 
 
