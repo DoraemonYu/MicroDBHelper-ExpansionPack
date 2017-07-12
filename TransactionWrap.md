@@ -23,7 +23,7 @@ For excample ( an 3-tier architecture project):
 ![snapshot](images/TransactionWrap/REFERENCE_BEFORE.png)  
 We keep the database logics only in the *DataAccess Layer*, but may allow Transaction begin in *Business Layer*, even *Application Layer*.   
 
-As you see, Due to the " All of them are packaged in the single dll", you SHOULD reference it again in *Business Layer* and up layers, just in order to use *MicroDBTransaction*.  
+As you see, due to the " All of them are packaged in the single dll", you SHOULD reference it again in *Business Layer* and up layers, just in order to use *MicroDBTransaction*.  
 
 Maybe we can solve this problem by some design patterns or development agreements, but it's not very rigorous for the **Closures Principle**, isn't it?  
 
@@ -37,13 +37,13 @@ Now, we use an wrap from this expansion pack to instead of *MicroDBTransaction* 
 ## Usage
 
 ### Implicit conversion 
-:) Just feel free to use *TransactionWrap*.   
+:) **Just feel free** to use *TransactionWrap*.   
 Because of library will automatically identify *TransactionWrap* as *MicroDBTransaction*.   
   
 So firstly, all the usages with properties and methods in *TransactionWrap* is same as them in *MicroDBTransaction* ; Secondly, you could just pass the *TransactionWrap* instance to those methods that is define *MicroDBTransaction* type parameter without any manual conversion.
 
 ### Different
-The little difference in code is that use *TransactionWrap.UseTransaction* instead of *MicroDBHelper.UseTransaction*. ( When you modify the codes, you can do this with the bulk text replacement tool.  )
+The **tiny** difference in code is that when begin Transaction, use *TransactionWrap.UseTransaction* instead of *MicroDBHelper.UseTransaction*. ( When you modify codes, you can do this with the bulk text replacement tool.  )
 
  
   
