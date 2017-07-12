@@ -19,6 +19,8 @@ Click the link of item below to see its document:
 
 * [PagingQuery](/MicroDBHelper-ExpansionPack/PagingQuery) It is focus on paging query;
 
+* [TransactionWrap](/MicroDBHelper-ExpansionPack/TransactionWrap) Assembly decoupling. Allow assembly which is hierarchical design, conveniently to create Transaction Object, without Reference the [MicroDBHelper] DLL.
+
 
 ## LICENSE
 MIT 
