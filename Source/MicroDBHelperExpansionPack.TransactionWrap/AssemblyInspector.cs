@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -17,7 +18,6 @@ namespace MicroDBHelperExpansionPack.Internals
         bool CheckAssembly();
     }
 
-
     /// <summary>
     /// Main logic to check [MicroDBHelper.dll]
     /// </summary>
@@ -25,11 +25,11 @@ namespace MicroDBHelperExpansionPack.Internals
     {
         public bool CheckAssembly()
         {
-            //Force load DLL
-            var assembly = typeof(MicroDBHelpers.MicroDBTransaction).Assembly;
+            //Try to load target DLL
+            var assembly        = typeof(MicroDBHelpers.MicroDBTransaction).Assembly; ;
             
             //Check GUID
-            var guidAttribute = assembly.GetCustomAttributes(typeof(GuidAttribute), true).FirstOrDefault() as GuidAttribute;
+            var guidAttribute   = assembly.GetCustomAttributes(typeof(GuidAttribute), true).FirstOrDefault() as GuidAttribute;
             if (guidAttribute == null)
                 return false;
             if (guidAttribute.Value.Equals("1fc8371f-18f4-4693-b233-a8736f9cded7", StringComparison.OrdinalIgnoreCase) == false)
@@ -52,17 +52,12 @@ namespace MicroDBHelperExpansionPack.Internals
         /// <returns></returns>
         public static bool CheckAssembly()
         {
-            //Create an new temporary AppDomain
-            AppDomain appDomain = AppDomain.CreateDomain("AppDomain4AssemblyInspector", null, new AppDomainSetup
-            {
-                ShadowCopyFiles     = "true",
-                LoaderOptimization  = LoaderOptimization.MultiDomainHost,
-            });
-            
+            #region Solution1. Well in Winform, but Bad in Asp.net
+            /*
             try
             {
-                var assmblyLoaderType   = typeof(AssemblyInspectorContext);
-                var assemblyLoader      = (IAssemblyInspectorContext)appDomain.CreateInstanceFromAndUnwrap(assmblyLoaderType.Assembly.Location, assmblyLoaderType.FullName);
+                var assmblyLoaderType = typeof(AssemblyInspectorContext);
+                var assemblyLoader = (IAssemblyInspectorContext)appDomain.CreateInstanceFromAndUnwrap(assmblyLoaderType.Assembly.Location, assmblyLoaderType.FullName);
                 return assemblyLoader.CheckAssembly();
             }
             catch (Exception)
@@ -74,6 +69,30 @@ namespace MicroDBHelperExpansionPack.Internals
                 //Release the temporary AppDomain
                 AppDomain.Unload(appDomain);
             }
+            */
+            #endregion
+
+            #region Solution2
+
+            try
+            {
+                var assembly        =  Assembly.Load("MicroDBHelper");
+
+                //Check GUID
+                var guidAttribute   = assembly.GetCustomAttributes(typeof(GuidAttribute), true).FirstOrDefault() as GuidAttribute;
+                if (guidAttribute == null)
+                    return false;
+                if (guidAttribute.Value.Equals("1fc8371f-18f4-4693-b233-a8736f9cded7", StringComparison.OrdinalIgnoreCase) == false)
+                    return false;
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            
+            #endregion
 
         }
     }
