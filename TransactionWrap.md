@@ -45,7 +45,7 @@ Because of library will automatically identify *TransactionWrap* as *MicroDBTran
   
 So firstly, all the usages with properties and methods in *TransactionWrap* is same as those in *MicroDBTransaction* ( [link](https://doraemonyu.github.io/MicroDBHelper/#transaction) ) ; Secondly, you could just pass the *TransactionWrap* instance to those methods that is define *MicroDBTransaction* type parameter without any manual conversion.
 
-### Different
+### Begin transaction
 The **tiny** difference in code is that when begin Transaction, instead of *TransactionWrap.UseTransaction* by *MicroDBHelper.UseTransaction*. ( We can change these codes smoothly with the bulk text replacement tool.  )
 
  
