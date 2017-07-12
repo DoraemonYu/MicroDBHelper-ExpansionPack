@@ -10,7 +10,7 @@ namespace MicroDBHelperExpansionPack
     /// <summary>
     /// Wrap for MicroDBTransaction
     /// </summary>
-    public class TransactionWrap
+    public class TransactionWrap : IDisposable
     {
 
         //--------Members----------
