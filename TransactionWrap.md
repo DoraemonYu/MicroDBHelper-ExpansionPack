@@ -32,7 +32,7 @@ Maybe we can solve this problem by some design patterns or development agreement
 
 Therefore, library offer a solution with assembly-level to solve it. Let us look this:  
 ![snapshot](images/TransactionWrap/REFERENCE_AFTER.png)   
-Now, we use an wrap from this expansion pack to instead of *MicroDBTransaction* by *"MicroDBHelper.dll"*. It just an wrap, no more logics in it and just make the assemblys to be decoupling.  
+Now, we use an wrapper from this expansion pack to instead of *MicroDBTransaction* by *"MicroDBHelper.dll"*. It just an wrapper, no more logics in it and just make the assemblys to be decoupling.  
 
 *Business Layer* and up layers use *TransactionWrap* type ; Public interfaces from *DataAccess Layer* also use *TransactionWrap* type, and use *MicroDBTransaction* type inner and finally invoke with *MicroDBHelper* class, library will automatically identify *TransactionWrap* as *MicroDBTransaction* .
 
@@ -51,7 +51,7 @@ The **tiny** difference in code is that when begin Transaction, instead of *Tran
  
   
 ## Notes & Recommend
-This expansion pack was an wrap and finally call logics in *"MicroDBHelper.dll"* as well.   
+This expansion pack was an wrapper and finally call logics in *"MicroDBHelper.dll"* as well.   
 So just one thing to do is, make sure that assemblies of current AppDomain MUST at least one reference the *"MicroDBHelper.dll"*.   
 
 Like the example above, *DataAccess Layer*  is part of the AppDomain and reference *"MicroDBHelper.dll"* , then other layers who use the wrap whitout reference *"MicroDBHelper.dll"* wolud still work properly.
