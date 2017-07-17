@@ -515,7 +515,7 @@ namespace MicroDBHelpers.ExpansionPack
         /// <param name="sqlWithoutOrder"></param>
         private static void Helper_GetRowNumberHelper(StringBuilder rownumber, string orderString, string sqlWithoutOrder)
         {
-            string pureSELECTPart = sqlWithoutOrder.Substring(6, sqlWithoutOrder.IndexOf("FROM ") - 5 ); 
+            string pureSELECTPart = sqlWithoutOrder.Substring(6, sqlWithoutOrder.IndexOf("FROM ",StringComparison.OrdinalIgnoreCase) - 5 ); 
 
             //Create mapping
             Dictionary<string, string> dic_fieldNameMapping = new Dictionary<string, string>();
