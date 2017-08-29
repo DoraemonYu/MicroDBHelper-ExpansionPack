@@ -49,7 +49,7 @@ There are some key parameters in these query methods:
 
 * **fixedSql**. If your SQL expression include somethings that front before SELECT (such as CTE, Variable definitions, etc. ) then you can put them in this parameter； if not include, just pass String.Empty;
  
-* **selectSql**. It is the core part of your SELECT expression. The library requires it to contain **SELECT** and **FROM*** keywords, **ORDER BY** is Optional.
+* **selectSql**. It is the core part of your SELECT expression. The library requires it to contain **SELECT** and **FROM** keywords, **ORDER BY** is Optional.
 
 More about **fixedSql** and  **selectSql** : 
 
