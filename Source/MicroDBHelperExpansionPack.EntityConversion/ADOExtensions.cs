@@ -82,7 +82,7 @@ namespace System.Data
                         
                         try
                         {
-                            if (info != null)
+                            if (info != null && info.CanWrite)
                             {
                                 #region Ignore this column Or Not
 
