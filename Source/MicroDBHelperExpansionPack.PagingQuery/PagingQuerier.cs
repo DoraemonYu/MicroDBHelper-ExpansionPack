@@ -334,8 +334,8 @@ namespace MicroDBHelpers.ExpansionPack
                 int endPos          = SELECTSQL.LastIndexOf("ORDER BY", StringComparison.OrdinalIgnoreCase);
 
                 //orderString & SELECTWithoutOrder
-                string orderBodyString      = endPos < 0 ? String.Empty : SELECTSQL.Substring(endPos + 8);
-                string SELECTWithoutOrder   = endPos < 0 ? String.Empty : SELECTSQL.Substring(0, endPos );
+                string orderBodyString      = endPos < 0 ? String.Empty             : SELECTSQL.Substring(endPos + 8);
+                string SELECTWithoutOrder   = endPos < 0 ? String.Copy(SELECTSQL)   : SELECTSQL.Substring(0, endPos);
 
                 //sqlCount
                 if (!hasDistinct(SELECTSQL))
