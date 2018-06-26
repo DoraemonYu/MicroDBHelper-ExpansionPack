@@ -35,6 +35,16 @@
             Transaction Object
             </summary>
         </member>
+        <member name="P:MicroDBHelperExpansionPack.TransactionWrap.IsolationLevel">
+            <summary>
+            Level of Isolation (read only)
+            </summary>
+        </member>
+        <member name="P:MicroDBHelperExpansionPack.TransactionWrap.ConnectionAliasName">
+            <summary>
+            the Alias Name of Connection (read only)
+            </summary>
+        </member>
         <member name="F:MicroDBHelperExpansionPack.TransactionWrap.IsMainDLLLoadedCorrect">
             <summary>
             Mark the status for MainDLL
@@ -43,6 +53,11 @@
         <member name="M:MicroDBHelperExpansionPack.TransactionWrap.#ctor(System.Data.IsolationLevel,System.String)">
             <summary>
             Hide default ctor
+            </summary>
+        </member>
+        <member name="P:MicroDBHelperExpansionPack.TransactionWrap.IsDisposed">
+            <summary>
+            mark as is it disposed now
             </summary>
         </member>
         <member name="M:MicroDBHelperExpansionPack.TransactionWrap.Dispose">
@@ -102,21 +117,6 @@
         <member name="M:MicroDBHelperExpansionPack.TransactionWrap.MarkSuccess">
             <summary>
             Mark this Transaction is Success ( before this MicroDBTransaction END,it will commit; otherwise, it wll rollback  )
-            </summary>
-        </member>
-        <member name="P:MicroDBHelperExpansionPack.TransactionWrap.IsolationLevel">
-            <summary>
-            Level of Isolation (read only)
-            </summary>
-        </member>
-        <member name="P:MicroDBHelperExpansionPack.TransactionWrap.ConnectionAliasName">
-            <summary>
-            the Alias Name of Connection (read only)
-            </summary>
-        </member>
-        <member name="P:MicroDBHelperExpansionPack.TransactionWrap.IsDisposed">
-            <summary>
-            mark as is it disposed now
             </summary>
         </member>
     </members>

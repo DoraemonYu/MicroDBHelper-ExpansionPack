@@ -122,7 +122,22 @@
             <param name="pageIndex">target index</param>
             <param name="pageSize">size of per page</param>
         </member>
-        <member name="M:MicroDBHelpers.ExpansionPack.PagingQuerier.DetailPagingAsync(MicroDBHelpers.ExpansionPack.PagingQuerier.ExecuteDelegate,System.Int32,System.Int32,System.String,System.String,System.Data.SqlClient.SqlParameter[],System.Data.CommandType)">
+        <member name="T:MicroDBHelpers.ExpansionPack.PagingQuerier.ExecuteAsyncDelegate">
+            <summary>
+            Delegate
+            </summary>
+        </member>
+        <member name="T:MicroDBHelpers.ExpansionPack.PagingQuerier.ExecuteDelegate">
+            <summary>
+            Delegate
+            </summary>
+        </member>
+        <member name="T:MicroDBHelpers.ExpansionPack.PagingQuerier.DetailPagingRet">
+            <summary>
+            result from DetailPaging
+            </summary>
+        </member>
+        <member name="M:MicroDBHelpers.ExpansionPack.PagingQuerier.DetailPagingAsync(MicroDBHelpers.ExpansionPack.PagingQuerier.ExecuteAsyncDelegate,System.Int32,System.Int32,System.String,System.String,System.Data.SqlClient.SqlParameter[],System.Data.CommandType)">
             <summary>
             Detail to PagingAsync
             </summary>
@@ -164,30 +179,11 @@
             </summary>
             <param name="sql">sql expression</param>
         </member>
-        <member name="T:MicroDBHelpers.ExpansionPack.PagingQuerier.ExecuteDelegate">
-            <summary>
-            Delegate
-            </summary>
-        </member>
-        <member name="T:MicroDBHelpers.ExpansionPack.PagingQuerier.DetailPagingRet">
-            <summary>
-            result from DetailPaging
-            </summary>
-        </member>
         <member name="T:MicroDBHelpers.ExpansionPack.Internals.BasePagingResult`1">
             <summary>
             base class of PagingResult models. <para />
             (please NOT to use this class directly, use specific PagingResult models instead )
             </summary>
-        </member>
-        <member name="M:MicroDBHelpers.ExpansionPack.Internals.BasePagingResult`1.#ctor(`0,System.Int32,System.Int32,System.Int32)">
-            <summary>
-            Constructor
-            </summary>
-            <param name="datas">Entitys</param>
-            <param name="pageIndex">Current Index</param>
-            <param name="pageSize">Size of per Page</param>
-            <param name="TotalCount">Count of all items</param>
         </member>
         <member name="P:MicroDBHelpers.ExpansionPack.Internals.BasePagingResult`1.Datas">
             <summary>
@@ -213,6 +209,15 @@
             <summary>
             Count of all pages (Read Only)
             </summary>
+        </member>
+        <member name="M:MicroDBHelpers.ExpansionPack.Internals.BasePagingResult`1.#ctor(`0,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="datas">Entitys</param>
+            <param name="pageIndex">Current Index</param>
+            <param name="pageSize">Size of per Page</param>
+            <param name="TotalCount">Count of all items</param>
         </member>
         <member name="T:MicroDBHelpers.ExpansionPack.PagingResult">
             <summary>
