@@ -21,6 +21,12 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\..\Build\en\MicroDBHelperExpansionPack.TransactionWrap.XML</DocumentationFile>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>StrongName.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -31,14 +37,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInspector.cs" />
-    <Compile Include="TransactionWrap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TransactionWrap.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\References\MicroDBHelper\Source\MicroDBHelper\MicroDBHelper.csproj">
       <Project>{38bed804-cde9-46e0-a493-9df6f4dd3f27}</Project>
       <Name>MicroDBHelper</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="StrongName.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="_ReadMe.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

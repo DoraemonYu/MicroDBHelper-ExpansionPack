@@ -35,6 +35,11 @@ namespace MicroDBHelperExpansionPack.Internals
             if (guidAttribute.Value.Equals("1fc8371f-18f4-4693-b233-a8736f9cded7", StringComparison.OrdinalIgnoreCase) == false)
                 return false;
 
+            //Check PublicKeyToken
+            var publicKeyToken = BitConverter.ToString(assembly.GetName().GetPublicKeyToken()).Replace("-", "");
+            if (publicKeyToken.Equals("68750db11b24ebb2", StringComparison.OrdinalIgnoreCase) == false)
+                return false;
+
             //Finally
             return true;
         }
@@ -85,6 +90,12 @@ namespace MicroDBHelperExpansionPack.Internals
                 if (guidAttribute.Value.Equals("1fc8371f-18f4-4693-b233-a8736f9cded7", StringComparison.OrdinalIgnoreCase) == false)
                     return false;
 
+                //Check PublicKeyToken
+                var publicKeyToken = BitConverter.ToString(assembly.GetName().GetPublicKeyToken()).Replace("-", "");
+                if (publicKeyToken.Equals("68750db11b24ebb2", StringComparison.OrdinalIgnoreCase) == false)
+                    return false;
+
+                //Finally
                 return true;
             }
             catch (Exception)

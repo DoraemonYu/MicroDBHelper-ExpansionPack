@@ -21,6 +21,12 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\..\Build\en\MicroDBHelperExpansionPack.PagingQuery.XML</DocumentationFile>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>StrongName.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -44,6 +50,12 @@
       <Project>{b38f4701-94f8-46f3-ac17-6b4b12068f3e}</Project>
       <Name>MicroDBHelperExpansionPack.EntityConversion</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="StrongName.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="_ReadMe.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
