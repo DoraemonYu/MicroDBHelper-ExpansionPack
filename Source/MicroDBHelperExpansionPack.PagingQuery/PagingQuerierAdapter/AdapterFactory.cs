@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace MicroDBHelpers.ExpansionPack
 {
     internal sealed class AdapterFactory
-    {
+    { 
         public static IAdapter CreateAdapter(string connectionAliasName)
         {
             //Get the target item

@@ -270,7 +270,7 @@ namespace MicroDBHelpers.ExpansionPack
         static Regex regex_minimumFieldName     = new Regex(@"((\.)*)(?<name>[^\s,\.]+)$", RegexOptions.IgnoreCase);
 
         /// <summary>
-        /// especial logic for DISTINCT (change the SELECT FIELD name if has 'AS' )
+        /// change the SELECT FIELD name if has 'AS' 
         /// </summary>
         /// <param name="rownumber"></param>
         /// <param name="orderString"></param>
