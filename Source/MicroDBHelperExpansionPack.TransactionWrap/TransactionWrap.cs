@@ -5,7 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-namespace MicroDBHelperExpansionPack
+namespace MicroDBHelpers.ExpansionPack
 {
     /// <summary>
     /// Wrap for MicroDBTransaction

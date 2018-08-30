@@ -25,88 +25,88 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:MicroDBHelperExpansionPack.TransactionWrap">
+        <member name="T:MicroDBHelpers.ExpansionPack.TransactionWrap">
             <summary>
             Wrap for MicroDBTransaction
             </summary>
         </member>
-        <member name="F:MicroDBHelperExpansionPack.TransactionWrap.transaction">
+        <member name="F:MicroDBHelpers.ExpansionPack.TransactionWrap.transaction">
             <summary>
             Transaction Object
             </summary>
         </member>
-        <member name="P:MicroDBHelperExpansionPack.TransactionWrap.IsolationLevel">
+        <member name="P:MicroDBHelpers.ExpansionPack.TransactionWrap.IsolationLevel">
             <summary>
             Level of Isolation (read only)
             </summary>
         </member>
-        <member name="P:MicroDBHelperExpansionPack.TransactionWrap.ConnectionAliasName">
+        <member name="P:MicroDBHelpers.ExpansionPack.TransactionWrap.ConnectionAliasName">
             <summary>
             the Alias Name of Connection (read only)
             </summary>
         </member>
-        <member name="F:MicroDBHelperExpansionPack.TransactionWrap.IsMainDLLLoadedCorrect">
+        <member name="F:MicroDBHelpers.ExpansionPack.TransactionWrap.IsMainDLLLoadedCorrect">
             <summary>
             Mark the status for MainDLL
             </summary>
         </member>
-        <member name="M:MicroDBHelperExpansionPack.TransactionWrap.#ctor(System.Data.IsolationLevel,System.String)">
+        <member name="M:MicroDBHelpers.ExpansionPack.TransactionWrap.#ctor(System.Data.IsolationLevel,System.String)">
             <summary>
             Hide default ctor
             </summary>
         </member>
-        <member name="P:MicroDBHelperExpansionPack.TransactionWrap.IsDisposed">
+        <member name="P:MicroDBHelpers.ExpansionPack.TransactionWrap.IsDisposed">
             <summary>
             mark as is it disposed now
             </summary>
         </member>
-        <member name="M:MicroDBHelperExpansionPack.TransactionWrap.Dispose">
+        <member name="M:MicroDBHelpers.ExpansionPack.TransactionWrap.Dispose">
             <summary>
             Dispose resources
             </summary>
         </member>
-        <member name="M:MicroDBHelperExpansionPack.TransactionWrap.Finalize">
+        <member name="M:MicroDBHelpers.ExpansionPack.TransactionWrap.Finalize">
             <summary>
             destruct
             </summary>
         </member>
-        <member name="M:MicroDBHelperExpansionPack.TransactionWrap.op_Implicit(MicroDBHelperExpansionPack.TransactionWrap)~MicroDBHelpers.MicroDBTransaction">
+        <member name="M:MicroDBHelpers.ExpansionPack.TransactionWrap.op_Implicit(MicroDBHelpers.ExpansionPack.TransactionWrap)~MicroDBHelpers.MicroDBTransaction">
             <summary>
             implicit conversion,  TransactionWrap -> MicroDBTransaction
             </summary>
         </member>
-        <member name="M:MicroDBHelperExpansionPack.TransactionWrap.op_Implicit(MicroDBHelperExpansionPack.TransactionWrap)~System.String">
+        <member name="M:MicroDBHelpers.ExpansionPack.TransactionWrap.op_Implicit(MicroDBHelpers.ExpansionPack.TransactionWrap)~System.String">
             <summary>
             implicit conversion,  TransactionWrap -> String
             </summary>
         </member>
-        <member name="M:MicroDBHelperExpansionPack.TransactionWrap.op_Equality(MicroDBHelperExpansionPack.TransactionWrap,MicroDBHelperExpansionPack.TransactionWrap)">
+        <member name="M:MicroDBHelpers.ExpansionPack.TransactionWrap.op_Equality(MicroDBHelpers.ExpansionPack.TransactionWrap,MicroDBHelpers.ExpansionPack.TransactionWrap)">
             <summary>
             ==
             </summary>
         </member>
-        <member name="M:MicroDBHelperExpansionPack.TransactionWrap.op_Inequality(MicroDBHelperExpansionPack.TransactionWrap,MicroDBHelperExpansionPack.TransactionWrap)">
+        <member name="M:MicroDBHelpers.ExpansionPack.TransactionWrap.op_Inequality(MicroDBHelpers.ExpansionPack.TransactionWrap,MicroDBHelpers.ExpansionPack.TransactionWrap)">
             <summary>
             !=
             </summary>
         </member>
-        <member name="M:MicroDBHelperExpansionPack.TransactionWrap.Equals(System.Object)">
+        <member name="M:MicroDBHelpers.ExpansionPack.TransactionWrap.Equals(System.Object)">
             <summary>
             Equals
             </summary>
         </member>
-        <member name="M:MicroDBHelperExpansionPack.TransactionWrap.GetHashCode">
+        <member name="M:MicroDBHelpers.ExpansionPack.TransactionWrap.GetHashCode">
             <summary>
             GetHashCode
             </summary>
         </member>
-        <member name="M:MicroDBHelperExpansionPack.TransactionWrap.ToString">
+        <member name="M:MicroDBHelpers.ExpansionPack.TransactionWrap.ToString">
             <summary>
             Returns a string that represents the current object.
             </summary>
             <returns></returns>
         </member>
-        <member name="M:MicroDBHelperExpansionPack.TransactionWrap.UseTransaction(System.Data.IsolationLevel,System.String)">
+        <member name="M:MicroDBHelpers.ExpansionPack.TransactionWrap.UseTransaction(System.Data.IsolationLevel,System.String)">
             <summary>
             Get new MicroDBTransaction Object with the Transaction support<para />
             ( when transaction is success，call MarkSuccess() method at last，then the transaction will automatically COMMIT; when some exception is happend then case the code NOT to call MarkSuccess() method,  the transaction will automatically Rollback )
@@ -114,7 +114,7 @@
             <param name="IsolationLevel">Level of Isolation</param>
             <param name="ConnectionAliasName">the Alias Name of Connection (if not pass name,it will use the DEFAULT name instead.)</param>
         </member>
-        <member name="M:MicroDBHelperExpansionPack.TransactionWrap.MarkSuccess">
+        <member name="M:MicroDBHelpers.ExpansionPack.TransactionWrap.MarkSuccess">
             <summary>
             Mark this Transaction is Success ( before this MicroDBTransaction END,it will commit; otherwise, it wll rollback  )
             </summary>
