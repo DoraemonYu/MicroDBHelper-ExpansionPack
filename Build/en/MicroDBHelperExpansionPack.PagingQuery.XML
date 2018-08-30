@@ -4,9 +4,35 @@
         <name>MicroDBHelperExpansionPack.PagingQuery</name>
     </assembly>
     <members>
+        <member name="T:MicroDBHelpers.ExpansionPack.DealHelper">
+            <summary>
+            Helper
+            </summary>
+        </member>
+        <member name="M:MicroDBHelpers.ExpansionPack.DealHelper.hasDistinct(System.String)">
+            <summary>
+            Check is it include "distinct"
+            </summary>
+            <param name="sql">sql expression</param>
+        </member>
         <member name="T:MicroDBHelpers.ExpansionPack.PagingQuerier">
             <summary>
             Paging Querier
+            </summary>
+        </member>
+        <member name="T:MicroDBHelpers.ExpansionPack.PagingQuerier.ExecuteAsyncDelegate">
+            <summary>
+            Delegate
+            </summary>
+        </member>
+        <member name="T:MicroDBHelpers.ExpansionPack.PagingQuerier.ExecuteDelegate">
+            <summary>
+            Delegate
+            </summary>
+        </member>
+        <member name="T:MicroDBHelpers.ExpansionPack.PagingQuerier.DetailPagingRet">
+            <summary>
+            result from DetailPaging
             </summary>
         </member>
         <member name="M:MicroDBHelpers.ExpansionPack.PagingQuerier.PagingAsDatatable(System.Int32,System.Int32,System.String,System.String,System.Data.SqlClient.SqlParameter[],System.String,System.Data.CommandType)">
@@ -122,27 +148,27 @@
             <param name="pageIndex">target index</param>
             <param name="pageSize">size of per page</param>
         </member>
-        <member name="T:MicroDBHelpers.ExpansionPack.PagingQuerier.ExecuteAsyncDelegate">
+        <member name="T:MicroDBHelpers.ExpansionPack.OffsetFetchWayAdapter">
             <summary>
-            Delegate
+            use way of [Offset Fetch] (require SqlServer 2012+)
             </summary>
         </member>
-        <member name="T:MicroDBHelpers.ExpansionPack.PagingQuerier.ExecuteDelegate">
-            <summary>
-            Delegate
-            </summary>
-        </member>
-        <member name="T:MicroDBHelpers.ExpansionPack.PagingQuerier.DetailPagingRet">
-            <summary>
-            result from DetailPaging
-            </summary>
-        </member>
-        <member name="M:MicroDBHelpers.ExpansionPack.PagingQuerier.DetailPagingAsync(MicroDBHelpers.ExpansionPack.PagingQuerier.ExecuteAsyncDelegate,System.Int32,System.Int32,System.String,System.String,System.Data.SqlClient.SqlParameter[],System.Data.CommandType)">
+        <member name="M:MicroDBHelpers.ExpansionPack.OffsetFetchWayAdapter.DetailPagingAsync(MicroDBHelpers.ExpansionPack.PagingQuerier.ExecuteAsyncDelegate,System.Int32,System.Int32,System.String,System.String,System.Data.SqlClient.SqlParameter[],System.Data.CommandType)">
             <summary>
             Detail to PagingAsync
             </summary>
         </member>
-        <member name="M:MicroDBHelpers.ExpansionPack.PagingQuerier.GetLimitSql(System.String,System.Int32,System.Int32,System.String,System.String)">
+        <member name="T:MicroDBHelpers.ExpansionPack.RowNumberWayAdapter">
+            <summary>
+            use way of [RowNumber()] (require SqlServer 2005+)
+            </summary>
+        </member>
+        <member name="M:MicroDBHelpers.ExpansionPack.RowNumberWayAdapter.DetailPagingAsync(MicroDBHelpers.ExpansionPack.PagingQuerier.ExecuteAsyncDelegate,System.Int32,System.Int32,System.String,System.String,System.Data.SqlClient.SqlParameter[],System.Data.CommandType)">
+            <summary>
+            Detail to PagingAsync
+            </summary>
+        </member>
+        <member name="M:MicroDBHelpers.ExpansionPack.RowNumberWayAdapter.GetLimitSql(System.String,System.Int32,System.Int32,System.String,System.String)">
             <summary>
             Create limit sql
             </summary>
@@ -152,7 +178,7 @@
             <param name="orderBodyString">main body of order-by-sql</param>
             <param name="SELECTWithoutOrder">sql without order-by-sql</param>
         </member>
-        <member name="M:MicroDBHelpers.ExpansionPack.PagingQuerier.GetRowNumber(System.String,System.String,System.String)">
+        <member name="M:MicroDBHelpers.ExpansionPack.RowNumberWayAdapter.GetRowNumber(System.String,System.String,System.String)">
             <summary>
             Get number of row
             </summary>
@@ -160,7 +186,7 @@
             <param name="orderBodyString">main body of order-by-sql</param>
             <param name="sqlWithoutOrder">sql without order-by-sql</param>
         </member>
-        <member name="M:MicroDBHelpers.ExpansionPack.PagingQuerier.Helper_GetRowNumberHelper(System.Text.StringBuilder,System.String,System.String)">
+        <member name="M:MicroDBHelpers.ExpansionPack.RowNumberWayAdapter.Helper_GetRowNumberHelper(System.Text.StringBuilder,System.String,System.String)">
             <summary>
             especial logic for DISTINCT (change the SELECT FIELD name if has 'AS' )
             </summary>
@@ -168,16 +194,10 @@
             <param name="orderString"></param>
             <param name="sqlWithoutOrder"></param>
         </member>
-        <member name="M:MicroDBHelpers.ExpansionPack.PagingQuerier.Helper_GetPureFieldName(System.String)">
+        <member name="M:MicroDBHelpers.ExpansionPack.RowNumberWayAdapter.Helper_GetPureFieldName(System.String)">
             <summary>
             Get Pure Field Name
             </summary>
-        </member>
-        <member name="M:MicroDBHelpers.ExpansionPack.PagingQuerier.hasDistinct(System.String)">
-            <summary>
-            Check is it include "distinct"
-            </summary>
-            <param name="sql">sql expression</param>
         </member>
         <member name="T:MicroDBHelpers.ExpansionPack.Internals.BasePagingResult`1">
             <summary>

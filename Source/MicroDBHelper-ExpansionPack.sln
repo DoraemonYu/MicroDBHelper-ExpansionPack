@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroDBHelperExpansionPack.EntityConversion", "MicroDBHelperExpansionPack.EntityConversion\MicroDBHelperExpansionPack.EntityConversion.csproj", "{B38F4701-94F8-46F3-AC17-6B4B12068F3E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0 Dependencies", "0 Dependencies", "{908DBA17-555A-4F3E-81BB-3D7451FD4AD9}"
@@ -59,8 +61,8 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B38F4701-94F8-46F3-AC17-6B4B12068F3E} = {89D5C97C-51AD-4554-94EF-AAFECD260472}
+		{38BED804-CDE9-46E0-A493-9DF6F4DD3F27} = {908DBA17-555A-4F3E-81BB-3D7451FD4AD9}
 		{3DF17B32-89DF-48BB-80D3-5CED0BE45970} = {89D5C97C-51AD-4554-94EF-AAFECD260472}
 		{85267AA3-E1F8-4054-BAA4-E226B67A97F3} = {89D5C97C-51AD-4554-94EF-AAFECD260472}
-		{38BED804-CDE9-46E0-A493-9DF6F4DD3F27} = {908DBA17-555A-4F3E-81BB-3D7451FD4AD9}
 	EndGlobalSection
 EndGlobal

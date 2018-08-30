@@ -37,7 +37,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DealHelper.cs" />
     <Compile Include="PagingQuerier.cs" />
+    <Compile Include="PagingQuerierAdapter\AdapterFactory.cs" />
+    <Compile Include="PagingQuerierAdapter\IAdapter.cs" />
+    <Compile Include="PagingQuerierAdapter\OffsetFetchWayAdapter.cs" />
+    <Compile Include="PagingQuerierAdapter\RowNumberWayAdapter.cs" />
     <Compile Include="PagingResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -57,6 +62,7 @@
   <ItemGroup>
     <Content Include="_ReadMe.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
