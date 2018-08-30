@@ -19,6 +19,14 @@ This expansion pack is focus on paging query.
 
 ## Usage
 
+### Internal logic
+The library will automatically choose the best way to do paging query.
+
+When the Product Version of SQLServer Instance is 11.0.x.x *(SQLServer 2012)* or higher, it will use the **OFFSET FETCH** way; 
+
+Otherwise, it will use the **ROW_NUMBER()** way, which was supported from SQLServer 2005.
+
+
 ### Result container 
 Firstly, let us see the result models,  `PagingResult` and `PagingResult<T>`.  
 
