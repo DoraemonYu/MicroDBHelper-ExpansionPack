@@ -8,6 +8,7 @@ This expansion pack is focus on paging query.
 
 ## Environmental Requirement
 * .Net framework 4.5 and +
+* SQL Server 2005 and +
 
 
 ## Dependencies 
@@ -66,7 +67,7 @@ PagingResult<T> PagingByList<T>(IEnumerable<T> datas, int pageIndex, int pageSiz
  
   
 ## Notes & Recommend
-The Core logic of Paging Query is *to change the T-SQL, SELECT the total count of results, and SELECT the datas PART of them thanks to ROW_NUMBER function*. So in fact, the origin T-SQL you pass into the method cannot be very complex, it's a hard work to deal all of the complex situations. 
+The Core logic of Paging Query is *to change the T-SQL, SELECT the total count of results, and SELECT the datas PART of them thanks to ROW_NUMBER function* and *Offset Fetch function* . So in fact, the origin T-SQL you pass into the method cannot be very complex, it's a hard work to deal all of the complex situations. 
 
 :) However, there are some recommends that can make it work fine: 
 * Avoid using subqueries in the **selectSql**. Convert it by using JOIN logic.  
