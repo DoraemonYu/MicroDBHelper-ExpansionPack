@@ -136,16 +136,6 @@ namespace MicroDBHelpers.ExpansionPack
             return wrap.transaction;
         }
 
-        /// <summary>
-        /// implicit conversion,  TransactionWrap -> String
-        /// </summary>
-        public static implicit operator String(TransactionWrap wrap)
-        {
-            if (Object.ReferenceEquals(wrap, null)) return null;
-
-            return wrap.ToString();
-        }
-
         #region Override CHECK, To avoid the "IF" check problem
 
         /// <summary>

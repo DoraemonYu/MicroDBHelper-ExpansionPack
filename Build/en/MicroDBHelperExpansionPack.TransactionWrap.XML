@@ -75,11 +75,6 @@
             implicit conversion,  TransactionWrap -> MicroDBTransaction
             </summary>
         </member>
-        <member name="M:MicroDBHelpers.ExpansionPack.TransactionWrap.op_Implicit(MicroDBHelpers.ExpansionPack.TransactionWrap)~System.String">
-            <summary>
-            implicit conversion,  TransactionWrap -> String
-            </summary>
-        </member>
         <member name="M:MicroDBHelpers.ExpansionPack.TransactionWrap.op_Equality(MicroDBHelpers.ExpansionPack.TransactionWrap,MicroDBHelpers.ExpansionPack.TransactionWrap)">
             <summary>
             ==
