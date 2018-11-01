@@ -10,11 +10,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B38F4701-94F8-46F3-AC17-6B4B12068F3E}</ProjectGuid>
+    <ProjectGuid>{da8b253a-315a-4c64-92fb-9d27df0ab40d}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MicroDBHelpers</RootNamespace>
-    <AssemblyName>MicroDBHelper</AssemblyName>
+    <RootNamespace>MicroDBHelperExpansionPack.EntityConversion</RootNamespace>
+    <AssemblyName>MicroDBHelperExpansionPack.EntityConversion</AssemblyName>
     <TargetFrameworks>net20;net35;net35-client;net40;net40-client;net45;</TargetFrameworks>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -44,8 +44,8 @@
 
 
   <PropertyGroup>
-    <DocumentationFile>..\..\Build\en\$(TargetFramework)\MicroDBHelper.xml</DocumentationFile>
-    <OutputPath>..\..\Build\en\</OutputPath>
+    <DocumentationFile>..\..\Build\en\$(AssemblyName)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+    <OutputPath>..\..\Build\en\$(AssemblyName)\</OutputPath>
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
@@ -55,6 +55,14 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Helpers\LinqSearchAlternate.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Common\LinqSearchAlternate.cs" Link="Helpers\LinqSearchAlternate.cs" />
   </ItemGroup>
 
   <ItemGroup>

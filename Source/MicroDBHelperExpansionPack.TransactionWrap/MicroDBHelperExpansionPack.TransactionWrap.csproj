@@ -1,49 +1,89 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup Condition="'$(TargetFramework)'=='net45' OR '$(TargetFramework)'=='net46'">
+    <DefineConstants>$(DefineConstants);ASYNC_SUPPORT;</DefineConstants>
+    <Configurations>Release</Configurations>
+  </PropertyGroup>
+
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{85267AA3-E1F8-4054-BAA4-E226B67A97F3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MicroDBHelperExpansionPack.TransactionWrap</RootNamespace>
     <AssemblyName>MicroDBHelperExpansionPack.TransactionWrap</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworks>net20;net35;net35-client;net40;net40-client;net45;</TargetFrameworks>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\..\Build\en\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\Build\en\MicroDBHelperExpansionPack.TransactionWrap.XML</DocumentationFile>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net40-client'">
+    <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>client</TargetFrameworkProfile>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net35-client'">
+    <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>client</TargetFrameworkProfile>
+  </PropertyGroup>
+  
+  
+  
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>StrongName.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
+
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>StrongName.snk</AssemblyOriginatorKeyFile>
+    <Description>Assembly decoupling. Allow assembly which is hierarchical design, conveniently to create Transaction Object, without Reference the [MicroDBHelper] DLL.</Description>
+    <Company>幻蓝工作室</Company>
+    <Copyright>https://github.com/DoraemonYu/MicroDBHelper-ExpansionPack</Copyright>
+    <AssemblyVersion>2.0.3.0</AssemblyVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <DocumentationFile>..\..\Build\en\$(AssemblyName)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+    <OutputPath>..\..\Build\en\$(AssemblyName)\</OutputPath>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+
+
+  <ItemGroup Condition="'$(TargetFramework)'=='net45' OR '$(TargetFramework)'=='net46'">
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data.DataSetExtensions" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Compile Include="..\Common\LinqSearchAlternate.cs" Link="LinqSearchAlternate.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="AssemblyInspector.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TransactionWrap.cs" />
-  </ItemGroup>
+  
+  
   <ItemGroup>
     <ProjectReference Include="..\References\MicroDBHelper\Source\MicroDBHelper\MicroDBHelper.csproj">
       <Project>{38bed804-cde9-46e0-a493-9df6f4dd3f27}</Project>
       <Name>MicroDBHelper</Name>
+      <Private>false</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -52,12 +92,7 @@
   <ItemGroup>
     <Content Include="_ReadMe.txt" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
 </Project>

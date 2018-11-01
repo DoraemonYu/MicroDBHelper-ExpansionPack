@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>MicroDBHelper</name>
+        <name>MicroDBHelperExpansionPack.EntityConversion</name>
     </assembly>
     <members>
         <member name="T:System.Data.ADOExtensions">
@@ -29,11 +29,6 @@
             <typeparam name="T">target type</typeparam>
             <param name="list">Entity List</param>
             <returns>a DataTable Object</returns>
-        </member>
-        <member name="T:System.Runtime.CompilerServices.ExtensionAttribute">
-            <summary>
-            ExtensionMethod support For .Net 2.0
-            </summary>
         </member>
         <member name="T:System.LinqSearchAlternate">
             <summary>

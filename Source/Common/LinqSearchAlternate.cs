@@ -23,6 +23,19 @@ namespace System
 
         #region FirstOrDefault
 
+        public static T FirstOrDefault<T>(IEnumerable<T> list)
+        {
+#if NET45 || NET46
+            return list.FirstOrDefault();
+#else
+            var enumerator = list.GetEnumerator();
+            if (enumerator.MoveNext())
+                return enumerator.Current;
+            else
+                return default(T);
+#endif
+        }
+
         public static T FirstOrDefault<T>(IEnumerable<T> list, Func<T,bool> function)
         {
 #if NET45 || NET46

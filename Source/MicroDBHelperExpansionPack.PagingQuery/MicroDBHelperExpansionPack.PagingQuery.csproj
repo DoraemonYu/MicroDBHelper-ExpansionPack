@@ -47,10 +47,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\References\MicroDBHelper\Source\MicroDBHelper\MicroDBHelper.csproj">
-      <Project>{38bed804-cde9-46e0-a493-9df6f4dd3f27}</Project>
-      <Name>MicroDBHelper</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MicroDBHelperExpansionPack.EntityConversion\MicroDBHelperExpansionPack.EntityConversion.csproj">
       <Project>{b38f4701-94f8-46f3-ac17-6b4b12068f3e}</Project>
       <Name>MicroDBHelperExpansionPack.EntityConversion</Name>

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+#if ASYNC_SUPPORT
+using System.Linq;
 using System.Threading.Tasks;
+#endif
 
 namespace MicroDBHelperExpansionPack.Internals
 {
@@ -29,7 +31,7 @@ namespace MicroDBHelperExpansionPack.Internals
             var assembly        = typeof(MicroDBHelpers.MicroDBTransaction).Assembly; ;
             
             //Check GUID
-            var guidAttribute   = assembly.GetCustomAttributes(typeof(GuidAttribute), true).FirstOrDefault() as GuidAttribute;
+            var guidAttribute   = LinqSearchAlternate.FirstOrDefault(assembly.GetCustomAttributes(typeof(GuidAttribute), true)) as GuidAttribute;
             if (guidAttribute == null)
                 return false;
             if (guidAttribute.Value.Equals("1fc8371f-18f4-4693-b233-a8736f9cded7", StringComparison.OrdinalIgnoreCase) == false)
@@ -57,7 +59,7 @@ namespace MicroDBHelperExpansionPack.Internals
         /// <returns></returns>
         public static bool CheckAssembly()
         {
-            #region Solution1. Well in Winform, but Bad in Asp.net
+#region Solution1. Well in Winform, but Bad in Asp.net
             /*
             try
             {
@@ -75,16 +77,16 @@ namespace MicroDBHelperExpansionPack.Internals
                 AppDomain.Unload(appDomain);
             }
             */
-            #endregion
+#endregion
 
-            #region Solution2
+#region Solution2
 
             try
             {
                 var assembly        =  Assembly.Load("MicroDBHelper");
 
                 //Check GUID
-                var guidAttribute   = assembly.GetCustomAttributes(typeof(GuidAttribute), true).FirstOrDefault() as GuidAttribute;
+                var guidAttribute   = LinqSearchAlternate.FirstOrDefault(assembly.GetCustomAttributes(typeof(GuidAttribute), true)) as GuidAttribute;
                 if (guidAttribute == null)
                     return false;
                 if (guidAttribute.Value.Equals("1fc8371f-18f4-4693-b233-a8736f9cded7", StringComparison.OrdinalIgnoreCase) == false)
@@ -103,7 +105,7 @@ namespace MicroDBHelperExpansionPack.Internals
                 return false;
             }
             
-            #endregion
+#endregion
 
         }
     }
