@@ -5,3 +5,4 @@ obj
 *.pdb
 /Build/en/MicroDBHelper.dll
 /Build/en/MicroDBHelper.xml
+/Source/.vs

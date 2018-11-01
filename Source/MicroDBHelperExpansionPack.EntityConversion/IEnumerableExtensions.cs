@@ -2,10 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Reflection;
 using System.Text;
+#if ASYNC_SUPPORT
+using System.Linq;
 using System.Threading.Tasks;
+#endif
 
 namespace System.Data
 {
@@ -27,17 +29,16 @@ namespace System.Data
             var plist = new List<PropertyInfo>(typeof(T).GetProperties());
 
             //get dic<Propertie,ColumnAttribute>
-            var pdic_col = plist.Select(o => new { Properties = o, ColumnAttribute = Attribute.GetCustomAttribute(o, typeof(ColumnAttribute)) as ColumnAttribute })
-                                .ToDictionary(o => o.Properties);
+            var pdic_col_raw    = LinqSearchAlternate.Select(plist, (o => new InformationForPropertyInfo { Properties = o, ColumnAttribute = Attribute.GetCustomAttribute(o, typeof(ColumnAttribute)) as ColumnAttribute }));
+            var pdic_col        = LinqSearchAlternate.ToDictionary(pdic_col_raw,(o => o.Properties));
             //get dic<Propertie,IgnoreAttribute>
-            var pdic_Ign = plist.Select(o => new { Properties = o, IgnoreAttribute = Attribute.GetCustomAttribute(o, typeof(IgnoreAttribute)) as IgnoreAttribute })
-                                .ToDictionary(o => o.Properties);
-
+            var pdic_Ign_raw    = LinqSearchAlternate.Select(plist, (o => new { Properties = o, IgnoreAttribute = Attribute.GetCustomAttribute(o, typeof(IgnoreAttribute)) as IgnoreAttribute }));
+            var pdic_Ign        = LinqSearchAlternate.ToDictionary(pdic_Ign_raw,(o => o.Properties));
 
             var dt              = new DataTable();
             dt.CaseSensitive    = true;
 
-            #region deal Columns
+#region deal Columns
 
             var dic_colNames = new Dictionary<PropertyInfo, string>();
             {
@@ -45,7 +46,7 @@ namespace System.Data
 
                 foreach (var prop in plist)
                 {
-                    #region Get Target Property
+#region Get Target Property
 
                     /* You can overwrite this folded code, in order to simply combine your logic.
                      * For example, just use:
@@ -55,12 +56,12 @@ namespace System.Data
 
                     //Richer logic :
 
-                    #region Ignore this column Or Not
+#region Ignore this column Or Not
 
                     if (pdic_Ign[prop].IgnoreAttribute != null)
                         continue;
 
-                    #endregion
+#endregion
 
                     string currentColumnName; bool ignoreCase;
                     {
@@ -83,9 +84,20 @@ namespace System.Data
 
 
                     //##Add new Column to Datatable when it's not already exist 
+#if NET20 || NET35 || NET40
+                    bool isMatch;
+                    if (ignoreCase)
+                        isMatch = colNamesCache.Contains(currentColumnName);
+                    else
+                        isMatch = colNamesCache.FindIndex(x => x.Equals(currentColumnName, StringComparison.OrdinalIgnoreCase)) != -1;
+
+                    if (isMatch == false)
+#else
+
                     if (colNamesCache.Contains(currentColumnName, 
                                                ignoreCase ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal) 
                                       == false)
+#endif
                     {
                         colNamesCache.Add(currentColumnName);
                         
@@ -93,14 +105,14 @@ namespace System.Data
                         dt.Columns.Add(currentColumnName, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType);
                     }
 
-                    #endregion
+#endregion
                 }
             }
 
-            #endregion
+#endregion
 
 
-            #region deal Rows
+#region deal Rows
 
             //#check is it NULL
             if (list == null)
@@ -119,7 +131,7 @@ namespace System.Data
                 dt.Rows.Add(values.ToArray());
             }
 
-            #endregion
+#endregion
 
 
             //#return all result

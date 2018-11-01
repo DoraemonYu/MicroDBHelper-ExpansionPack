@@ -1,63 +1,77 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup Condition="'$(TargetFramework)'=='net45' OR '$(TargetFramework)'=='net46'">
+    <DefineConstants>$(DefineConstants);ASYNC_SUPPORT;</DefineConstants>
+    <Configurations>Release</Configurations>
+  </PropertyGroup>
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{B38F4701-94F8-46F3-AC17-6B4B12068F3E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MicroDBHelpers.ExpansionPack</RootNamespace>
-    <AssemblyName>MicroDBHelperExpansionPack.EntityConversion</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <RootNamespace>MicroDBHelpers</RootNamespace>
+    <AssemblyName>MicroDBHelper</AssemblyName>
+    <TargetFrameworks>net20;net35;net35-client;net40;net40-client;net45;</TargetFrameworks>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\..\Build\en\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\Build\en\MicroDBHelperExpansionPack.EntityConversion.XML</DocumentationFile>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net40-client'">
+    <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>client</TargetFrameworkProfile>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net35-client'">
+    <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>client</TargetFrameworkProfile>
+  </PropertyGroup>
+
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>StrongName.snk</AssemblyOriginatorKeyFile>
+    <Description>Expansion Pack for [MicroDBHelper]. Entity Conversion.</Description>
+    <Company>幻蓝工作室</Company>
+    <Copyright>https://github.com/DoraemonYu/MicroDBHelper-ExpansionPack</Copyright>
+    <AssemblyVersion>2.0.4.0</AssemblyVersion>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
+
+
+  <PropertyGroup>
+    <DocumentationFile>..\..\Build\en\$(TargetFramework)\MicroDBHelper.xml</DocumentationFile>
+    <OutputPath>..\..\Build\en\</OutputPath>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)'=='net45' OR '$(TargetFramework)'=='net46'">
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="ADOExtensions.cs" />
-    <Compile Include="Attributes\ColumnAttribute.cs" />
-    <Compile Include="Attributes\IgnoreAttribute.cs" />
-    <Compile Include="IEnumerableExtensions.cs" />
-    <Compile Include="EntityConversionDefaultSettings.cs" />
-    <Compile Include="EntityConvert.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
+
+  
+  
   <ItemGroup>
     <None Include="StrongName.snk" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="_ReadMe.txt" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
 </Project>

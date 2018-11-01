@@ -1,10 +1,12 @@
 ﻿using MicroDBHelpers.ExpansionPack;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Text;
+#if ASYNC_SUPPORT
+using System.Linq;
 using System.Threading.Tasks;
+#endif
 
 namespace System.Data
 {
@@ -32,11 +34,11 @@ namespace System.Data
             var plist       = new List<PropertyInfo>(typeof(T).GetProperties());
 
             //get dic<Propertie,ColumnAttribute>
-            var pdic_col    = plist.Select(o => new { Properties = o,   ColumnAttribute = Attribute.GetCustomAttribute(o,typeof(ColumnAttribute)) as ColumnAttribute })
-                                   .ToDictionary(o => o.Properties );
+            var pdic_col_raw    = LinqSearchAlternate.Select(plist, (o => new InformationForPropertyInfo { Properties = o, ColumnAttribute = Attribute.GetCustomAttribute(o, typeof(ColumnAttribute)) as ColumnAttribute }));
+            var pdic_col        = LinqSearchAlternate.ToDictionary(pdic_col_raw,(o => o.Properties));
             //get dic<Propertie,IgnoreAttribute>
-            var pdic_Ign = plist.Select(o => new { Properties = o,      IgnoreAttribute = Attribute.GetCustomAttribute(o, typeof(IgnoreAttribute)) as IgnoreAttribute })
-                                .ToDictionary(o => o.Properties);
+            var pdic_Ign_raw    = LinqSearchAlternate.Select(plist, (o => new { Properties = o, IgnoreAttribute = Attribute.GetCustomAttribute(o, typeof(IgnoreAttribute)) as IgnoreAttribute }));
+            var pdic_Ign        = LinqSearchAlternate.ToDictionary(pdic_Ign_raw,(o => o.Properties));
             
 
             //loop to convert Properties and Values
@@ -50,7 +52,7 @@ namespace System.Data
                     {
                         PropertyInfo info = null;
 
-                        #region Get Target Property
+#region Get Target Property
 
                         /* You can overwrite this folded code, in order to simply combine your logic.
                             * For example, just use:
@@ -59,7 +61,7 @@ namespace System.Data
 
 
                         //Richer logic :
-                        info = plist.FirstOrDefault(o =>
+                        info = LinqSearchAlternate.FirstOrDefault(plist,(o =>
                         {
                             var colAtt = pdic_col[o].ColumnAttribute;
                             if (colAtt != null)
@@ -76,20 +78,20 @@ namespace System.Data
                                 bool ignoreCase = !EntityConversionDefaultSettings.CaseSensitiveToColumnName;
                                 return String.Compare(dt.Columns[i].ColumnName , o.Name, ignoreCase) == 0;
                             }
-                        });
+                        }));
 
-                        #endregion
+#endregion
                         
                         try
                         {
                             if (info != null && info.CanWrite)
                             {
-                                #region Ignore this column Or Not
+#region Ignore this column Or Not
 
                                 if ( pdic_Ign[info].IgnoreAttribute != null )
                                     continue;
 
-                                #endregion
+#endregion
 
                                 object rawValue = item[i];
 
