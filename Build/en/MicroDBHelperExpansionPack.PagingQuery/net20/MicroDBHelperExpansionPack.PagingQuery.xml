@@ -1,0 +1,219 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MicroDBHelperExpansionPack.PagingQuery</name>
+    </assembly>
+    <members>
+        <member name="T:MicroDBHelpers.ExpansionPack.DealHelper">
+            <summary>
+            Helper
+            </summary>
+        </member>
+        <member name="M:MicroDBHelpers.ExpansionPack.DealHelper.hasDistinct(System.String)">
+            <summary>
+            Check is it include "distinct"
+            </summary>
+            <param name="sql">sql expression</param>
+        </member>
+        <member name="T:MicroDBHelpers.ExpansionPack.PagingQuerier">
+            <summary>
+            Paging Querier
+            </summary>
+        </member>
+        <member name="T:MicroDBHelpers.ExpansionPack.PagingQuerier.ExecuteDelegate">
+            <summary>
+            Delegate
+            </summary>
+        </member>
+        <member name="T:MicroDBHelpers.ExpansionPack.PagingQuerier.DetailPagingRet">
+            <summary>
+            result from DetailPaging
+            </summary>
+        </member>
+        <member name="M:MicroDBHelpers.ExpansionPack.PagingQuerier.PagingAsDatatable(System.Int32,System.Int32,System.String,System.String,System.Data.SqlClient.SqlParameter[],System.String,System.Data.CommandType)">
+            <summary>
+            Paging Datas by Database
+            </summary>
+            <param name="pageIndex">Current Index</param>
+            <param name="pageSize">Size of per Page</param>
+            <param name="fixedSql">The Sql which in the Front ( ex.  CTE Query begin with the Keyword "WITH" ) </param>
+            <param name="selectSql">The Sql which begin with Keyword "SELECT" </param>
+            <param name="paramValues">Parameters</param>
+            <param name="connectionAliasName">the Alias Name of Connection (if not pass name,it will use the DEFAULT name instead.)</param>
+            <param name="commandType">Text | StoredProcedure</param>
+        </member>
+        <member name="M:MicroDBHelpers.ExpansionPack.PagingQuerier.PagingAsDatatable(System.Int32,System.Int32,System.String,System.String,System.Data.SqlClient.SqlParameter[],MicroDBHelpers.MicroDBTransaction,System.Data.CommandType)">
+            <summary>
+            Paging Datas by Database
+            </summary>
+            <param name="pageIndex">Current Index</param>
+            <param name="pageSize">Size of per Page</param>
+            <param name="fixedSql">The Sql which in the Front ( ex.  CTE Query begin with the Keyword "WITH" ) </param>
+            <param name="selectSql">The Sql which begin with Keyword "SELECT" </param>
+            <param name="paramValues">Parameters</param>
+            <param name="transaction">transaction</param>
+            <param name="commandType">Text | StoredProcedure</param>
+        </member>
+        <member name="M:MicroDBHelpers.ExpansionPack.PagingQuerier.PagingAsEntity``1(System.Int32,System.Int32,System.String,System.String,System.Data.SqlClient.SqlParameter[],System.String,System.Data.CommandType)">
+            <summary>
+            Paging Datas by Database <para />
+            (need to reference: MicroDBHelperExpansionPack.EntityConversion )
+            </summary>
+            <typeparam name="T">Target Type</typeparam>
+            <param name="pageIndex">Current Index</param>
+            <param name="pageSize">Size of per Page</param>
+            <param name="fixedSql">The Sql which in the Front ( ex.  CTE Query begin with the Keyword "WITH" ) </param>
+            <param name="selectSql">The Sql which begin with Keyword "SELECT" </param>
+            <param name="paramValues">Parameters</param>
+            <param name="connectionAliasName">the Alias Name of Connection (if not pass name,it will use the DEFAULT name instead.)</param>
+            <param name="commandType">Text | StoredProcedure</param>
+        </member>
+        <member name="M:MicroDBHelpers.ExpansionPack.PagingQuerier.PagingAsEntity``1(System.Int32,System.Int32,System.String,System.String,System.Data.SqlClient.SqlParameter[],MicroDBHelpers.MicroDBTransaction,System.Data.CommandType)">
+            <summary>
+            Paging Datas by Database <para />
+            (need to reference: MicroDBHelperExpansionPack.EntityConversion )
+            </summary>
+            <typeparam name="T">Target Type</typeparam>
+            <param name="pageIndex">Current Index</param>
+            <param name="pageSize">Size of per Page</param>
+            <param name="fixedSql">The Sql which in the Front ( ex.  CTE Query begin with the Keyword "WITH" ) </param>
+            <param name="selectSql">The Sql which begin with Keyword "SELECT" </param>
+            <param name="paramValues">Parameters</param>
+            <param name="transaction">transaction</param>
+            <param name="commandType">Text | StoredProcedure</param>
+        </member>
+        <member name="M:MicroDBHelpers.ExpansionPack.PagingQuerier.PagingByList``1(System.Collections.Generic.IEnumerable{``0},System.Int32,System.Int32)">
+            <summary>
+            Just a helper function for developers who hope to "Paging Datas in Memory" and use the "PagingResult Model"
+            </summary>
+            <typeparam name="T">Target Type</typeparam>
+            <param name="datas">datas</param>
+            <param name="pageIndex">target index</param>
+            <param name="pageSize">size of per page</param>
+        </member>
+        <member name="T:MicroDBHelpers.ExpansionPack.OffsetFetchWayAdapter">
+            <summary>
+            use way of [Offset Fetch] (require SqlServer 2012+)
+            </summary>
+        </member>
+        <member name="T:MicroDBHelpers.ExpansionPack.RowNumberWayAdapter">
+            <summary>
+            use way of [RowNumber()] (require SqlServer 2005+)
+            </summary>
+        </member>
+        <member name="M:MicroDBHelpers.ExpansionPack.RowNumberWayAdapter.GetLimitSql(System.String,System.Int32,System.Int32,System.String,System.String)">
+            <summary>
+            Create limit sql
+            </summary>
+            <param name="sql">sql expression</param>
+            <param name="pageIndex">the index of page</param>
+            <param name="pageSize">the size of each page</param>
+            <param name="orderBodyString">main body of order-by-sql</param>
+            <param name="SELECTWithoutOrder">sql without order-by-sql</param>
+        </member>
+        <member name="M:MicroDBHelpers.ExpansionPack.RowNumberWayAdapter.GetRowNumber(System.String,System.String,System.String)">
+            <summary>
+            Get number of row
+            </summary>
+            <param name="sql">sql expression</param>
+            <param name="orderBodyString">main body of order-by-sql</param>
+            <param name="sqlWithoutOrder">sql without order-by-sql</param>
+        </member>
+        <member name="M:MicroDBHelpers.ExpansionPack.RowNumberWayAdapter.Helper_GetRowNumberHelper(System.Text.StringBuilder,System.String,System.String)">
+            <summary>
+            change the SELECT FIELD name if has 'AS' 
+            </summary>
+            <param name="rownumber"></param>
+            <param name="orderString"></param>
+            <param name="sqlWithoutOrder"></param>
+        </member>
+        <member name="M:MicroDBHelpers.ExpansionPack.RowNumberWayAdapter.Helper_GetPureFieldName(System.String)">
+            <summary>
+            Get Pure Field Name
+            </summary>
+        </member>
+        <member name="T:MicroDBHelpers.ExpansionPack.Internals.BasePagingResult`1">
+            <summary>
+            base class of PagingResult models. <para />
+            (please NOT to use this class directly, use specific PagingResult models instead )
+            </summary>
+        </member>
+        <member name="P:MicroDBHelpers.ExpansionPack.Internals.BasePagingResult`1.Datas">
+            <summary>
+            Datas (Read Only)
+            </summary>
+        </member>
+        <member name="P:MicroDBHelpers.ExpansionPack.Internals.BasePagingResult`1.CurrentPageIndex">
+            <summary>
+            Current Index (Read Only)
+            </summary>
+        </member>
+        <member name="P:MicroDBHelpers.ExpansionPack.Internals.BasePagingResult`1.PageSize">
+            <summary>
+            Size of per Page (Read Only)
+            </summary>
+        </member>
+        <member name="P:MicroDBHelpers.ExpansionPack.Internals.BasePagingResult`1.TotalItemsCount">
+            <summary>
+            Count of all items
+            </summary>
+        </member>
+        <member name="P:MicroDBHelpers.ExpansionPack.Internals.BasePagingResult`1.TotalPages">
+            <summary>
+            Count of all pages (Read Only)
+            </summary>
+        </member>
+        <member name="M:MicroDBHelpers.ExpansionPack.Internals.BasePagingResult`1.#ctor(`0,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="datas">Entitys</param>
+            <param name="pageIndex">Current Index</param>
+            <param name="pageSize">Size of per Page</param>
+            <param name="TotalCount">Count of all items</param>
+        </member>
+        <member name="T:MicroDBHelpers.ExpansionPack.PagingResult">
+            <summary>
+            The result after Paging Query (DataTable Type)
+            </summary>
+        </member>
+        <member name="M:MicroDBHelpers.ExpansionPack.PagingResult.#ctor(System.Data.DataTable,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="datas">DataTable</param>
+            <param name="pageIndex">Current Index</param>
+            <param name="pageSize">Size of per Page</param>
+            <param name="TotalCount">Count of all items</param>
+        </member>
+        <member name="T:MicroDBHelpers.ExpansionPack.PagingResult`1">
+            <summary>
+            The result after Paging Query (Entity Type)
+            </summary>
+        </member>
+        <member name="M:MicroDBHelpers.ExpansionPack.PagingResult`1.GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through the collection.
+            </summary>
+        </member>
+        <member name="M:MicroDBHelpers.ExpansionPack.PagingResult`1.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through the collection.
+            </summary>
+        </member>
+        <member name="M:MicroDBHelpers.ExpansionPack.PagingResult`1.#ctor(System.Collections.Generic.IEnumerable{`0},System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="datas">Entitys</param>
+            <param name="pageIndex">Current Index</param>
+            <param name="pageSize">Size of per Page</param>
+            <param name="TotalCount">Count of all items</param>
+        </member>
+        <member name="T:System.LinqSearchAlternate">
+            <summary>
+            Alternate for Linq's Search
+            </summary>
+        </member>
+    </members>
+</doc>

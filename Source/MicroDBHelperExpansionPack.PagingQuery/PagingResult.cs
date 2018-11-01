@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
+#if ASYNC_SUPPORT
+using System.Linq;
 using System.Threading.Tasks;
+#endif
 
 
 namespace MicroDBHelpers.ExpansionPack.Internals
 {
-    #region BasePagingResult
+#region BasePagingResult
 
     /// <summary>
     /// base class of PagingResult models. <para />
@@ -20,16 +22,16 @@ namespace MicroDBHelpers.ExpansionPack.Internals
 
         //--------Members---------
 
-        #region Data Collection
+#region Data Collection
 
         /// <summary>
         /// Datas (Read Only)
         /// </summary>
         public TData Datas { get; private set; }
 
-        #endregion
+#endregion
 
-        #region Status
+#region Status
 
         /// <summary>
         /// Current Index (Read Only)
@@ -60,12 +62,12 @@ namespace MicroDBHelpers.ExpansionPack.Internals
             }
         }
 
-        #endregion
+#endregion
 
 
         //--------Control---------
 
-        #region Constructor
+#region Constructor
 
         //Hide
         private BasePagingResult()
@@ -87,17 +89,17 @@ namespace MicroDBHelpers.ExpansionPack.Internals
             TotalItemsCount     = TotalCount;
         }
 
-        #endregion
+#endregion
 
     }
 
-    #endregion
+#endregion
 }
 
 
 namespace MicroDBHelpers.ExpansionPack
 {
-    #region DataTable Type Result
+#region DataTable Type Result
 
     /// <summary>
     /// The result after Paging Query (DataTable Type)
@@ -117,7 +119,7 @@ namespace MicroDBHelpers.ExpansionPack
         }
     }
 
-    #endregion
+#endregion
 
 
     /// <summary>
@@ -129,14 +131,14 @@ namespace MicroDBHelpers.ExpansionPack
 
         //--------Members---------
 
-        #region Data Collection
+#region Data Collection
         
         /// <summary>
         /// Returns an enumerator that iterates through the collection.
         /// </summary>
         public IEnumerator<T> GetEnumerator()
         {
-            return Datas.AsQueryable().GetEnumerator();
+            return Datas.GetEnumerator();
         }
 
         /// <summary>
@@ -147,12 +149,12 @@ namespace MicroDBHelpers.ExpansionPack
             return Datas.GetEnumerator();
         }
 
-        #endregion
+#endregion
 
 
         //--------Control---------
 
-        #region Constructor
+#region Constructor
         
         /// <summary>
         /// Constructor
@@ -166,7 +168,7 @@ namespace MicroDBHelpers.ExpansionPack
         {
         }
         		 
-	    #endregion
+#endregion
 
     }
 }

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Text;
+#if ASYNC_SUPPORT
+using System.Linq;
 using System.Threading.Tasks;
+#endif
 using MicroDBHelpers;
 using System.Text.RegularExpressions;
 
@@ -22,7 +24,7 @@ namespace MicroDBHelpers.ExpansionPack
                                                        out string SELECTSQL)
         {
             //Check Data legitimacy firstly
-            if (String.IsNullOrWhiteSpace(selectSql))
+            if (String.IsNullOrEmpty(selectSql.Trim()))
                 throw new ArgumentException("[selectSql] cannot be empty string.", "selectSql");
 
             //pre-deal some chars which may effect the logic

@@ -17,7 +17,7 @@ namespace MicroDBHelperExpansionPack.Internals
     /// </summary>
     internal interface IAssemblyInspectorContext
     {
-        bool CheckAssembly();
+        bool CheckAssembly(); 
     }
 
     /// <summary>

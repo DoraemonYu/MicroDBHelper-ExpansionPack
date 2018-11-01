@@ -14,7 +14,7 @@
     <ProjectGuid>{85267AA3-E1F8-4054-BAA4-E226B67A97F3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MicroDBHelperExpansionPack.TransactionWrap</RootNamespace>
+    <RootNamespace>MicroDBHelperExpansionPack</RootNamespace>
     <AssemblyName>MicroDBHelperExpansionPack.TransactionWrap</AssemblyName>
     <TargetFrameworks>net20;net35;net35-client;net40;net40-client;net45;</TargetFrameworks>
     <FileAlignment>512</FileAlignment>
@@ -34,17 +34,9 @@
   
   
   
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>StrongName.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
 
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
     <AssemblyOriginatorKeyFile>StrongName.snk</AssemblyOriginatorKeyFile>
     <Description>Assembly decoupling. Allow assembly which is hierarchical design, conveniently to create Transaction Object, without Reference the [MicroDBHelper] DLL.</Description>
     <Company>幻蓝工作室</Company>
@@ -66,16 +58,18 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
   </ItemGroup>
-
-
-  <ItemGroup>
-    <Compile Include="..\Common\LinqSearchAlternate.cs" Link="LinqSearchAlternate.cs" />
-  </ItemGroup>
-
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Helpers\LinqSearchAlternate.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Common\LinqSearchAlternate.cs" Link="Helpers\LinqSearchAlternate.cs" />
   </ItemGroup>
   
   

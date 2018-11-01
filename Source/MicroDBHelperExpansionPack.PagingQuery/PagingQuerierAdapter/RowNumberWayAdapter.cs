@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+#if ASYNC_SUPPORT
+using System.Linq;
 using System.Threading.Tasks;
+#endif
 using static MicroDBHelpers.ExpansionPack.PagingQuerier;
 
 namespace MicroDBHelpers.ExpansionPack
@@ -61,6 +63,7 @@ namespace MicroDBHelpers.ExpansionPack
             }
         }
 
+#if ASYNC_SUPPORT
         /// <summary>
         /// Detail to PagingAsync
         /// </summary>
@@ -106,9 +109,10 @@ namespace MicroDBHelpers.ExpansionPack
                 throw DealHelper.DetailPagingHelper_CatchException_CommonException(ex, fixedSql, SELECTSQL, totalCount);
             }
         }
+#endif
 
         #endregion
-        
+
         #region DetailPaging Helpers
 
 
@@ -247,7 +251,7 @@ namespace MicroDBHelpers.ExpansionPack
         {
             StringBuilder rownumber = new StringBuilder(50).Append("ROW_NUMBER() OVER( ");
 
-            bool hasOrderBy = !String.IsNullOrWhiteSpace(orderBodyString);
+            bool hasOrderBy = !String.IsNullOrEmpty(orderBodyString.Trim());
 
             if (hasOrderBy)
             {
@@ -320,7 +324,7 @@ namespace MicroDBHelpers.ExpansionPack
                         }
 
                         //append direction
-                        if (String.IsNullOrWhiteSpace(direction) == false)
+                        if (String.IsNullOrEmpty(direction.Trim()) == false)
                         {
                             newOrderby.Append(" ");
                             newOrderby.Append(direction);

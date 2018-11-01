@@ -90,5 +90,86 @@ namespace System
         #endregion
 
 
+        #region Count
+
+        public static int Count<TData>(IEnumerable<TData> list)
+        {
+#if NET45 || NET46
+            return list.Count();
+#else
+            int count       = 0;
+            var enumerator  = list.GetEnumerator();
+
+            while (enumerator.MoveNext())
+                count++;
+
+            return count;
+#endif
+        }
+
+        #endregion
+
+        #region Skip
+
+        public static IEnumerable<TData> Skip<TData>(IEnumerable<TData> list, int number)
+        {
+#if NET45 || NET46
+            return list.Skip(number);
+#else
+            if (number < 0)     throw new ArgumentOutOfRangeException("number for [Skip] cannot less than Zero.", "number");
+            if (number == 0)    return list;
+
+            int index       = 0;
+            var ret         = new List<TData>();
+            var enumerator  = list.GetEnumerator();
+            do
+            {
+                //Check
+                if (enumerator.MoveNext() == false)
+                    break;
+
+                if (index >= number)
+                    ret.Add(enumerator.Current);
+
+                index++;
+
+            } while (true);
+
+            return ret;
+#endif
+        }
+
+        #endregion
+
+        #region Take
+
+        public static IEnumerable<TData> Take<TData>(IEnumerable<TData> list,int number)
+        {
+#if NET45 || NET46
+            return list.Take(number);
+#else
+            if (number < 0)     throw new ArgumentOutOfRangeException("number for [Skip] cannot less than Zero.", "number");
+            if (number == 0)    return new TData[0];
+
+            int index       = 0;
+            var ret         = new List<TData>();
+            var enumerator  = list.GetEnumerator();
+            do
+            {
+                //Check
+                if (enumerator.MoveNext() == false)
+                    break;
+                else
+                    ret.Add(enumerator.Current);
+
+            } while (++index < number);
+
+            return ret;
+#endif
+        }
+
+        #endregion
+
+
     }
 }

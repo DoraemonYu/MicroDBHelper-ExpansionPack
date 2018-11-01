@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Text;
+#if ASYNC_SUPPORT
+using System.Linq;
 using System.Threading.Tasks;
+#endif
 using MicroDBHelpers;
 using System.Text.RegularExpressions;
 
@@ -16,13 +18,15 @@ namespace MicroDBHelpers.ExpansionPack
     public static class PagingQuerier
     {
         //------Delegate-------
-        
+
         #region Execute
 
+#if ASYNC_SUPPORT
         /// <summary>
         /// Delegate
         /// </summary>
         internal delegate Task<DataTable> ExecuteAsyncDelegate(string Sql, SqlParameter[] paramValues, CommandType commandType);
+#endif
         /// <summary>
         /// Delegate
         /// </summary>
@@ -74,6 +78,7 @@ namespace MicroDBHelpers.ExpansionPack
             return new PagingResult(ret.querydt, pageIndex, pageSize, ret.totalCount);
         }
 
+#if ASYNC_SUPPORT
         /// <summary>
         /// async Paging Datas by Database
         /// </summary>
@@ -97,7 +102,7 @@ namespace MicroDBHelpers.ExpansionPack
             var ret = await AdapterFactory.CreateAdapter(connectionAliasName).DetailPagingAsync(action, pageIndex, pageSize, fixedSql, selectSql, paramValues, commandType);
             return new PagingResult(ret.querydt, pageIndex, pageSize, ret.totalCount);
         }
-
+#endif
 
         /// <summary>
         /// Paging Datas by Database
@@ -123,6 +128,7 @@ namespace MicroDBHelpers.ExpansionPack
             return new PagingResult(ret.querydt, pageIndex, pageSize, ret.totalCount);
         }
 
+#if ASYNC_SUPPORT
         /// <summary>
         /// async Paging Datas by Database
         /// </summary>
@@ -146,7 +152,7 @@ namespace MicroDBHelpers.ExpansionPack
             var ret = await AdapterFactory.CreateAdapter(transaction.ConnectionAliasName).DetailPagingAsync(action, pageIndex, pageSize, fixedSql, selectSql, paramValues, commandType);
             return new PagingResult(ret.querydt, pageIndex, pageSize, ret.totalCount);
         }
-
+#endif
 
 
 
@@ -178,6 +184,7 @@ namespace MicroDBHelpers.ExpansionPack
             return new PagingResult<T>(EntityConvert.ConvertToList<T>(ret.querydt), pageIndex, pageSize, ret.totalCount);
         }
 
+#if ASYNC_SUPPORT
         /// <summary>
         /// async Paging Datas by Database <para />
         /// (need to reference: MicroDBHelperExpansionPack.EntityConversion )
@@ -204,6 +211,7 @@ namespace MicroDBHelpers.ExpansionPack
             var ret = await AdapterFactory.CreateAdapter(connectionAliasName).DetailPagingAsync(action, pageIndex, pageSize, fixedSql, selectSql, paramValues, commandType);
             return new PagingResult<T>(EntityConvert.ConvertToList<T>(ret.querydt), pageIndex, pageSize, ret.totalCount);
         }
+#endif
 
 
         /// <summary>
@@ -233,6 +241,7 @@ namespace MicroDBHelpers.ExpansionPack
             return new PagingResult<T>(EntityConvert.ConvertToList<T>(ret.querydt), pageIndex, pageSize, ret.totalCount);
         }
 
+#if ASYNC_SUPPORT
         /// <summary>
         /// async Paging Datas by Database <para />
         /// (need to reference: MicroDBHelperExpansionPack.EntityConversion )
@@ -259,7 +268,7 @@ namespace MicroDBHelpers.ExpansionPack
             var ret = await AdapterFactory.CreateAdapter(transaction.ConnectionAliasName).DetailPagingAsync(action, pageIndex, pageSize, fixedSql, selectSql, paramValues, commandType);
             return new PagingResult<T>(EntityConvert.ConvertToList<T>(ret.querydt), pageIndex, pageSize, ret.totalCount);
         }
-        
+#endif
 
         #endregion
 
@@ -276,14 +285,17 @@ namespace MicroDBHelpers.ExpansionPack
                              where T : class
         {
             //Get total count
-            int totalCount = datas == null ? 0 : datas.Count();
+            int totalCount = datas == null ? 0 : LinqSearchAlternate.Count(datas);
 
             //split datas
             IEnumerable<T> targetDatas = null;
             if (datas != null)
             {
-                int skipNumber = pageSize * (pageIndex - 1);
-                targetDatas = datas.Skip(skipNumber).Take(pageSize);
+                int skipNumber  = pageSize * (pageIndex - 1);
+
+                var data_skiped = LinqSearchAlternate.Skip(datas, skipNumber);
+                var data_taked  = LinqSearchAlternate.Take(datas, skipNumber);
+                targetDatas     = data_taked;
             }
 
             //combine result
