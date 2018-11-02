@@ -6,7 +6,7 @@ This expansion pack is focus on convert datas between datatable object and entit
 
 
 ## Environmental Requirement
-* .Net framework 4.0 and +
+* .Net framework 2.0 and +
 
 
 ## Dependencies 
