@@ -11,7 +11,7 @@ It's useful for those **hierarchical design projects**, and there is no value fo
 
 
 ## Environmental Requirement
-* .Net framework 4.5 and +
+* .Net framework 2.0 and +
  
   
   
