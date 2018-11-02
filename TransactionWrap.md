@@ -32,7 +32,7 @@ Maybe we can solve this problem by some design patterns or development agreement
 
 Therefore, library offer a solution with assembly-level to solve it. Let us look this:  
 ![snapshot](images/TransactionWrap/REFERENCE_AFTER.png)   
-Now, we use an wrapper from this expansion pack to instead of *MicroDBTransaction* by *"MicroDBHelper.dll"*. It just an wrapper, no more logics in it and just make the assemblys to be decoupling.  
+Now, we use an wrapper from this expansion pack(*MicroDBTransaction*) to instead of *"MicroDBHelper.dll"*. It just an wrapper, no more logics in it and just make the assemblys to be decoupling.  
 
 *Business Layer* and up layers use *TransactionWrap* type ; Public interfaces from *DataAccess Layer* also use *TransactionWrap* type, and use *MicroDBTransaction* type inner and finally invoke with *MicroDBHelper* class, library will automatically identify *TransactionWrap* as *MicroDBTransaction* .
 
@@ -46,7 +46,7 @@ Because of library will automatically identify *TransactionWrap* as *MicroDBTran
 So firstly, all the usages with properties and methods in *TransactionWrap* is same as those in *MicroDBTransaction* ( [link](https://doraemonyu.github.io/MicroDBHelper/#transaction) ) ; Secondly, you could just pass the *TransactionWrap* instance to those methods that is define *MicroDBTransaction* type parameter without any manual conversion.
 
 ### Begin transaction
-The **tiny** difference in code is that when begin Transaction, instead of *TransactionWrap.UseTransaction* by *MicroDBHelper.UseTransaction*. ( We can change these codes smoothly with the bulk text replacement tool.  )
+The **tiny** difference in code is that when begin Transaction, use *TransactionWrap.UseTransaction* instead of  *MicroDBHelper.UseTransaction*. ( We can change these codes smoothly with the bulk text replacement tool.  )
 
  
   
