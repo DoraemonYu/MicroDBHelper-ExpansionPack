@@ -41,7 +41,7 @@
     <Description>Expansion Pack for [MicroDBHelper]. Paging Query.</Description>
     <Company>幻蓝工作室</Company>
     <Copyright>https://github.com/DoraemonYu/MicroDBHelper-ExpansionPack</Copyright>
-    <AssemblyVersion>2.0.7.0</AssemblyVersion>
+    <AssemblyVersion>2.0.8.0</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup>

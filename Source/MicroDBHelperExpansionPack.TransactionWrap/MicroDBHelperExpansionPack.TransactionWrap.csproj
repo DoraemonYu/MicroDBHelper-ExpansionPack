@@ -44,7 +44,7 @@
     <Description>Assembly decoupling. Allow assembly which is hierarchical design, conveniently to create Transaction Object, without Reference the [MicroDBHelper] DLL.</Description>
     <Company>幻蓝工作室</Company>
     <Copyright>https://github.com/DoraemonYu/MicroDBHelper-ExpansionPack</Copyright>
-    <AssemblyVersion>2.0.3.0</AssemblyVersion>
+    <AssemblyVersion>2.0.4.0</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup>
