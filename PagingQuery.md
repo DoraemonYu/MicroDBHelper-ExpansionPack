@@ -8,7 +8,17 @@ This expansion pack is focus on paging query.
 
 ## Environmental Requirement
 * SQL Server 2005 and +
-* .Net framework 2.0 and +
+
+
+## Generated for Framework Version:
+* .NET Framework 2.0
+* .NET Framework 3.5
+* .NET Framework 3.5 Client Profile
+* .NET Framework 4.0
+* .NET Framework 4.0 Client Profile
+* .NET Framework 4.5
+* .NET Framework 4.6 
+* .NET Standard 2.0
 
 
 ## Dependencies 

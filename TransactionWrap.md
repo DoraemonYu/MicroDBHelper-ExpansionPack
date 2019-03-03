@@ -10,8 +10,15 @@ It's useful for those **hierarchical design projects**, and there is no value fo
 *The root section of documents of **all optional expansion packs**, please visit [here](/MicroDBHelper-ExpansionPack/).*
 
 
-## Environmental Requirement
-* .Net framework 2.0 and +
+## Generated for Framework Version:
+* .NET Framework 2.0
+* .NET Framework 3.5
+* .NET Framework 3.5 Client Profile
+* .NET Framework 4.0
+* .NET Framework 4.0 Client Profile
+* .NET Framework 4.5
+* .NET Framework 4.6 
+* .NET Standard 2.0
  
   
   
