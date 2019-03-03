@@ -6,3 +6,4 @@ obj
 /Build/en/MicroDBHelper.dll
 /Build/en/MicroDBHelper.xml
 /Source/.vs
+/Build/*/*/*.deps.json
